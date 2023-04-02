@@ -27,17 +27,19 @@ public class Model {
         ticker.work();
     }
     void moveBall() {
-        if(ball.getYPos() < ball.getHeight()*2 || ball.getYPos() > height - ball.getHeight()*2 + ball.getHeight()/2){
+        if((ball.getYVelocity() < 0 && ball.getYPos() <= ball.getYVelocity())
+                || (ball.getYVelocity() > 0 &&(ball.getYPos() + ball.getHeight() + ball.getYVelocity()) >= height)){
             ball.setYVelocity(-ball.getYVelocity());
+            System.out.println(ball.getYPos());
         }
         ball.setXPos(ball.getXPos()+ball.getXVelocity());
         ball.setYPos(ball.getYPos() + ball.getYVelocity());
-        if(ball.getXVelocity() < 0 && ball.getXPos() <= leftRacket.getWidth() + ball.getWidth()/2 &&
-                (ball.getYPos() >= leftRacket.getYPos() && ball.getYPos() <= leftRacket.getYPos()+leftRacket.getHeight())){
+        if(ball.getXVelocity() < 0 && ball.getXPos() <= leftRacket.getWidth() &&
+                (ball.getYPos() <= leftRacket.getYPos()+leftRacket.getHeight() && (ball.getYPos() + ball.getHeight()) > leftRacket.getYPos())){
             ball.setXVelocity(-ball.getXVelocity());
         }
-        if(ball.getXVelocity() > 0 && (ball.getXPos() + ball.getWidth()) >= width - rightRacket.getWidth()*2 &&
-                (ball.getYPos() >= rightRacket.getYPos() && ball.getYPos() <= rightRacket.getYPos()+rightRacket.getHeight())){
+        if(ball.getXVelocity() > 0 && (ball.getXPos() + ball.getWidth()) >= rightRacket.getXPos() &&
+                ball.getYPos() <= rightRacket.getYPos()+rightRacket.getHeight() && (ball.getYPos() + ball.getHeight()) > rightRacket.getYPos()){
             ball.setXVelocity(-ball.getXVelocity());
         }
 
@@ -47,7 +49,7 @@ public class Model {
             ball.setXVelocity((int)(Math.random()*40) - 20);
             ball.setYVelocity((int)(Math.random()*40) - 20);
         }
-        if(ball.getXPos() <= 0){
+        if(ball.getXPos()+ball.getWidth() <= 0){
             // right win
             ball.resetBall();
             ball.setXVelocity((int)(Math.random()*40) - 20);
