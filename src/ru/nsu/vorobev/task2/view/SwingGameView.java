@@ -27,11 +27,12 @@ public class SwingGameView extends JFrame implements ModelListener {
         if (bufferStrategy == null) {
             createBufferStrategy(2);
             bufferStrategy = getBufferStrategy();
-            g = bufferStrategy.getDrawGraphics();
         }
+        g = bufferStrategy.getDrawGraphics();
         g.setColor(Color.black);
         g.fillRect(xAddition/2,0,width,height+yAddition);
-        // left racket
+
+         //left racket
         g.setColor(Color.white);
         g.fillRect(xAddition/2,model.getLeftRacket().getYPos()+yAddition,model.getLeftRacket().getWidth()+1,model.getLeftRacket().getHeight()+1);
         // right racket
@@ -40,6 +41,17 @@ public class SwingGameView extends JFrame implements ModelListener {
         // ball
         g.setColor(Color.white);
         g.fillRect(xAddition/2+model.getBall().getXPos(), model.getBall().getYPos()+yAddition, model.getBall().getWidth()+1,model.getBall().getHeight()+1);
+        // center line
+        g.setColor(Color.white);
+        g.drawLine(xAddition/2+width/2, 0, xAddition/2+width/2, height+yAddition);
+
+        int fontSize = 20;
+        Font font = new Font("Arial",Font.BOLD,fontSize);
+        g.setColor(Color.white);
+        g.setFont(font);
+        g.drawString(String.valueOf(model.getLeftScore()),xAddition/2 + width/2 - width/20,yAddition + height/20);
+        g.drawString(String.valueOf(model.getRightScore()),xAddition/2 + width/2 + width/20 - fontSize/2,yAddition + height/20);
+
 
         g.dispose();
         bufferStrategy.show();
@@ -49,7 +61,7 @@ public class SwingGameView extends JFrame implements ModelListener {
         Model model = new Model(800,600);
         SwingUtilities.invokeLater(() ->{
             SwingGameView window = new SwingGameView(model,800,600);
-
+            window.setTitle("Witcher 3: The Wild Hunt");
             Dimension dim = new Dimension();
             dim.width = 800;
             dim.height = 600;
