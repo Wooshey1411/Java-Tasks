@@ -23,12 +23,12 @@ public class SwingGameView extends JFrame implements ModelListener {
     }
     @Override
     public void paint(Graphics g){
-        BufferStrategy bufferStrategy = getBufferStrategy();        // Обращаемся к стратегии буферизации
-        if (bufferStrategy == null) {                               // Если она еще не создана
-            createBufferStrategy(2);                                // то создаем ее
-            bufferStrategy = getBufferStrategy();                   // и опять обращаемся к уже наверняка созданной стратегии
+        BufferStrategy bufferStrategy = getBufferStrategy();
+        if (bufferStrategy == null) {
+            createBufferStrategy(2);
+            bufferStrategy = getBufferStrategy();
+            g = bufferStrategy.getDrawGraphics();
         }
-        g = bufferStrategy.getDrawGraphics();
         g.setColor(Color.black);
         g.fillRect(xAddition/2,0,width,height+yAddition);
         // left racket
@@ -39,9 +39,9 @@ public class SwingGameView extends JFrame implements ModelListener {
         g.fillRect(model.getRightRacket().getXPos()+xAddition/2,model.getRightRacket().getYPos()+yAddition,model.getRightRacket().getWidth()+1,model.getRightRacket().getHeight()+1);
         // ball
         g.setColor(Color.white);
-        g.fillRect(model.getBall().getXPos(), model.getBall().getYPos()+yAddition, model.getBall().getWidth(),model.getBall().getHeight());
+        g.fillRect(xAddition/2+model.getBall().getXPos(), model.getBall().getYPos()+yAddition, model.getBall().getWidth()+1,model.getBall().getHeight()+1);
 
-        g.dispose();                // Освободить все временные ресурсы графики (после этого в нее уже нельзя рисовать)
+        g.dispose();
         bufferStrategy.show();
     }
 
@@ -49,53 +49,21 @@ public class SwingGameView extends JFrame implements ModelListener {
         Model model = new Model(800,600);
         SwingUtilities.invokeLater(() ->{
             SwingGameView window = new SwingGameView(model,800,600);
-            /*window.setSize(window.width, window.height);*/
-            // форма
 
-// размер
             Dimension dim = new Dimension();
-
-// нужная ширина (подставить число)
             dim.width = 800;
-
-// нужная высота (подставить число)
             dim.height = 600;
-
-// присваиваем форме нужные размеры
             window.setPreferredSize( dim );
-
-
-// JVM "прорисовывает" форму, получая реальные размеры рабочей области
-
             window.pack();
-
-// реальная ширина рабочей области
-
             int realWidth = window.getContentPane().getWidth();
-
-// реальная высота рабочей области
             int realHeight = window.getContentPane().getHeight();
-
-// вычисляем разницу по ширине
-            int theXaddition = dim.width - realWidth;
-
-// вычисляем разницу по высоте
-
-            int theYaddition = dim.height - realHeight;
-
-// добавляем разницу к первоначально заданным размерам
-            dim.width += theXaddition;
-
-            dim.height += theYaddition;
-
-// устанавливаем увеличенные размеры
-
+            int xAddition = dim.width - realWidth;
+            int yAddition = dim.height - realHeight;
+            dim.width += xAddition;
+            dim.height += yAddition;
             window.setPreferredSize( dim );
-
-// прорисовываем повторно
-
             window.pack();
-            window.setAdditions(theXaddition,theYaddition);
+            window.setAdditions(xAddition,yAddition);
 
             window.setDefaultCloseOperation(window.EXIT_ON_CLOSE);
             window.setLocation(350,140);
