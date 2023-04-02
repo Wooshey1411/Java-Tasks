@@ -8,21 +8,27 @@ import java.util.concurrent.TimeUnit;
 public class Ticker implements Runnable  {
 
     private final Model model;
-    private Future<?> tickerFuture;
-    private  ScheduledExecutorService executorService;
+    ScheduledExecutorService executorService;
+    private boolean isFrozen;
     public Ticker(Model model){
         this.model = model;
         executorService = Executors.newSingleThreadScheduledExecutor();
+        isFrozen = false;
     }
     @Override
     public void run() {
-        model.doOp();
+        if(!isFrozen) {
+            model.moveBall();
+        }
     }
 
     public void work() {
-            tickerFuture = executorService.scheduleAtFixedRate(this, 0, 66, TimeUnit.MILLISECONDS);
+        executorService.scheduleAtFixedRate(this, 0, 33, TimeUnit.MILLISECONDS);
         }
-    public void stopWork(){
-        tickerFuture.cancel(true);
+    public void freeze(){
+        isFrozen = true;
+    }
+    public void unfreeze(){
+        isFrozen = false;
     }
 }
