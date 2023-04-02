@@ -1,5 +1,6 @@
 package ru.nsu.vorobev.task2.view;
 
+import ru.nsu.vorobev.task2.controller.SwingController;
 import ru.nsu.vorobev.task2.model.Model;
 import ru.nsu.vorobev.task2.model.ModelListener;
 
@@ -29,9 +30,10 @@ public class SwingGameView extends JFrame implements ModelListener {
             bufferStrategy = getBufferStrategy();
         }
         g = bufferStrategy.getDrawGraphics();
+      //  g.setColor(Color.orange);
+      //  g.fillRect(0,0,width+xAddition,height+yAddition);
         g.setColor(Color.black);
-        g.fillRect(xAddition/2,0,width,height+yAddition);
-
+        g.fillRect(xAddition/2,yAddition,width,height+yAddition/2);
          //left racket
         g.setColor(Color.white);
         g.fillRect(xAddition/2,model.getLeftRacket().getYPos()+yAddition,model.getLeftRacket().getWidth()+1,model.getLeftRacket().getHeight()+1);
@@ -76,7 +78,9 @@ public class SwingGameView extends JFrame implements ModelListener {
             window.setPreferredSize( dim );
             window.pack();
             window.setAdditions(xAddition,yAddition);
-
+            SwingController controller = new SwingController(model);
+            window.addKeyListener(controller);
+            window.setFocusable(true);
             window.setDefaultCloseOperation(window.EXIT_ON_CLOSE);
             window.setLocation(350,140);
             window.setVisible(true);
