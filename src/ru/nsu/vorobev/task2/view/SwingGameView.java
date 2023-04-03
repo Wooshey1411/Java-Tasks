@@ -16,6 +16,10 @@ public class SwingGameView extends JFrame implements ModelListener {
     private int xAddition;
     private int yAddition;
 
+    private int rightAddition;
+    private int topAddition;
+    private int bottomAddition;
+    private int leftAddition;
     public SwingGameView(Model model,int width,int height) {
         this.model = model;
         model.setListener(this);
@@ -30,29 +34,27 @@ public class SwingGameView extends JFrame implements ModelListener {
             bufferStrategy = getBufferStrategy();
         }
         g = bufferStrategy.getDrawGraphics();
-      //  g.setColor(Color.orange);
-      //  g.fillRect(0,0,width+xAddition,height+yAddition);
         g.setColor(Color.black);
-        g.fillRect(xAddition/2,yAddition,width,height+yAddition/2);
+        g.fillRect(leftAddition,topAddition,width,height);
          //left racket
         g.setColor(Color.white);
-        g.fillRect(xAddition/2,model.getLeftRacket().getYPos()+yAddition,model.getLeftRacket().getWidth()+1,model.getLeftRacket().getHeight()+1);
+        g.fillRect(leftAddition,model.getLeftRacket().getYPos()+topAddition,model.getLeftRacket().getWidth(),model.getLeftRacket().getHeight());
         // right racket
         g.setColor(Color.white);
-        g.fillRect(model.getRightRacket().getXPos()+xAddition/2,model.getRightRacket().getYPos()+yAddition,model.getRightRacket().getWidth()+1,model.getRightRacket().getHeight()+1);
+        g.fillRect(model.getRightRacket().getXPos()+leftAddition,model.getRightRacket().getYPos()+topAddition,model.getRightRacket().getWidth(),model.getRightRacket().getHeight());
         // ball
         g.setColor(Color.white);
-        g.fillRect(xAddition/2+model.getBall().getXPos(), model.getBall().getYPos()+yAddition, model.getBall().getWidth()+1,model.getBall().getHeight()+1);
+        g.fillRect(leftAddition+model.getBall().getXPos(), model.getBall().getYPos()+topAddition, model.getBall().getWidth(),model.getBall().getHeight());
         // center line
-        g.setColor(Color.white);
-        g.drawLine(xAddition/2+width/2, 0, xAddition/2+width/2, height+yAddition);
+        g.setColor(Color.green);
+        g.drawLine(leftAddition+width/2, topAddition, leftAddition+width/2, height+topAddition);
 
         int fontSize = 20;
         Font font = new Font("Arial",Font.BOLD,fontSize);
         g.setColor(Color.white);
         g.setFont(font);
-        g.drawString(String.valueOf(model.getLeftScore()),xAddition/2 + width/2 - width/20,yAddition + height/20);
-        g.drawString(String.valueOf(model.getRightScore()),xAddition/2 + width/2 + width/20 - fontSize/2,yAddition + height/20);
+        g.drawString(String.valueOf(model.getLeftScore()),leftAddition + width/2 - width/20,topAddition + height/20);
+        g.drawString(String.valueOf(model.getRightScore()),leftAddition + width/2 + width/20 - fontSize/2,topAddition + height/20);
 
 
         g.dispose();
@@ -63,6 +65,7 @@ public class SwingGameView extends JFrame implements ModelListener {
         Model model = new Model(800,600);
         SwingUtilities.invokeLater(() ->{
             SwingGameView window = new SwingGameView(model,800,600);
+            window.setResizable(false);
             window.setTitle("Witcher 3: The Wild Hunt");
             Dimension dim = new Dimension();
             dim.width = 800;
@@ -77,19 +80,22 @@ public class SwingGameView extends JFrame implements ModelListener {
             dim.height += yAddition;
             window.setPreferredSize( dim );
             window.pack();
-            window.setAdditions(xAddition,yAddition);
             SwingController controller = new SwingController(model);
             window.addKeyListener(controller);
             window.setFocusable(true);
             window.setDefaultCloseOperation(window.EXIT_ON_CLOSE);
             window.setLocation(350,140);
             window.setVisible(true);
+            Insets insets = window.getInsets();
+            window.setAdditions(insets.top,insets.bottom,insets.left,insets.right);
         });
     }
 
-    void setAdditions(int xAddition, int yAddition){
-        this.xAddition = xAddition;
-        this.yAddition = yAddition;
+    void setAdditions(int topAddition, int bottomAddition, int leftAddition, int rightAddition){
+        this.topAddition = topAddition;
+        this.bottomAddition = bottomAddition;
+        this.leftAddition = leftAddition;
+        this.rightAddition = rightAddition;
     }
     @Override
     public void onModelChanged() {

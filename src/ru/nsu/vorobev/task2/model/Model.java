@@ -1,7 +1,4 @@
 package ru.nsu.vorobev.task2.model;
-
-import javax.swing.Timer;
-
 public class Model {
 
     private ModelListener listener;
@@ -29,39 +26,58 @@ public class Model {
         ticker.freeze();
     }
     void moveBall() {
+        boolean isVertReflected = false;
         // top/bottom reflection
-        if((ball.getYVelocity() < 0 && ball.getYPos() <= -ball.getYVelocity()/2)
-                || (ball.getYVelocity() > 0 &&(ball.getYPos() + ball.getHeight() + ball.getYVelocity()/2) >= height)){
+        if((ball.getYVelocity() < 0 && ball.getYPos() <= 0)
+                || (ball.getYVelocity() > 0 &&(ball.getYPos() + ball.getHeight()) >= height)){
+            if(ball.getYVelocity() < 0){
+                ball.setYPos(0);
+            } else {
+                ball.setYPos(height-ball.getHeight());
+            }
+            isVertReflected = true;
             ball.setYVelocity(-ball.getYVelocity());
         }
+
         // left reflection
         if(ball.getXVelocity() < 0 && ball.getXPos() <= leftRacket.getWidth() &&
                 ( ball.getYPos() <= leftRacket.getYPos()+leftRacket.getHeight() && (ball.getYPos() + ball.getHeight()) > leftRacket.getYPos())){
             ball.setXVelocity(-ball.getXVelocity());
+            ball.setXVelocity(ball.getXVelocity()+(int)(Math.random()*10));
+            ball.setYVelocity(ball.getYVelocity()+(int)(Math.random()*10));
         }
         // right reflection
         if(ball.getXVelocity() > 0 && (ball.getXPos() + ball.getWidth()) >= rightRacket.getXPos() &&
                 ball.getYPos() <= rightRacket.getYPos()+rightRacket.getHeight() && (ball.getYPos() + ball.getHeight()) > rightRacket.getYPos()){
+            ball.setXVelocity(ball.getXVelocity()+(int)(Math.random()*10));
+            ball.setYVelocity(ball.getYVelocity()+(int)(Math.random()*10));
             ball.setXVelocity(-ball.getXVelocity());
         }
         // ball move
         ball.setXPos(ball.getXPos()+ball.getXVelocity());
-        ball.setYPos(ball.getYPos() + ball.getYVelocity());
-
+        if(!isVertReflected) {
+            ball.setYPos(ball.getYPos() + ball.getYVelocity());
+        }
         if(ball.getXPos() >= width){
             // left win
             leftScore++;
             ball.resetBall();
-            ball.setXVelocity((int)(Math.random()*40) - 20);
-            ball.setYVelocity((int)(Math.random()*40) - 20);
+            leftRacket.resetRacket();
+            rightRacket.resetRacket();
+            ball.setXVelocity(-ball.getXVelocity());
+          //  ball.setXVelocity((int)(Math.random()*40) - 20);
+           // ball.setYVelocity((int)(Math.random()*40) - 20);
             ticker.freeze();
         }
         if(ball.getXPos()+ball.getWidth() <= 0){
             // right win
             rightScore++;
             ball.resetBall();
-            ball.setXVelocity((int)(Math.random()*40) - 20);
-            ball.setYVelocity((int)(Math.random()*40) - 20);
+            leftRacket.resetRacket();
+            rightRacket.resetRacket();
+            ball.setXVelocity(-ball.getXVelocity());
+          //  ball.setXVelocity((int)(Math.random()*40) - 20);
+          //  ball.setYVelocity((int)(Math.random()*40) - 20);
             ticker.freeze();
         }
 
