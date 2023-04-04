@@ -15,19 +15,20 @@ public class Ticker implements Runnable  {
         isFrozen = false;
     }
     @Override
-    public void run() {
+    public synchronized void run() {
         if(!isFrozen) {
             model.moveBall();
+            model.moveRackets();
         }
     }
 
     public void work() {
         executorService.scheduleAtFixedRate(this, 0, 33, TimeUnit.MILLISECONDS);
         }
-    public void freeze(){
+    public synchronized void freeze(){
         isFrozen = true;
     }
-    public void unfreeze(){
+    public synchronized void unfreeze(){
         isFrozen = false;
     }
 }

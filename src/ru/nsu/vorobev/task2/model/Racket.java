@@ -3,6 +3,8 @@ package ru.nsu.vorobev.task2.model;
 public class Racket {
     private final int xPos;
     private int yPos;
+    private boolean isMoveUp;
+    private boolean isMoveDown;
     private final int velocity;
     private final int width;
     private final int height;
@@ -16,6 +18,8 @@ public class Racket {
         this.width = width;
         this.height = height;
         initYPos = yPos;
+        isMoveUp = false;
+        isMoveDown = false;
     }
 
     public void resetRacket(){
@@ -43,5 +47,20 @@ public class Racket {
 
     public int getHeight() {
         return height;
+    }
+
+    public boolean getIsMoveDown() {
+        return isMoveDown;
+    }
+
+    public void setIsMoveDown(boolean isMoveDown) {
+        this.isMoveDown = isMoveDown;
+    }
+
+    public void setIsMoveUp(boolean isMoveUp) {
+        this.isMoveUp = isMoveUp;
+    }
+    public boolean getIsMoveUp() {
+        return isMoveUp;
     }
 }

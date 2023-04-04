@@ -7,14 +7,11 @@ import ru.nsu.vorobev.task2.model.ModelListener;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-
 public class SwingGameView extends JFrame implements ModelListener {
 
     private final Model model;
     private final int width;
     private final int height;
-    private int xAddition;
-    private int yAddition;
 
     private int rightAddition;
     private int topAddition;

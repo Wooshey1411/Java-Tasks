@@ -83,6 +83,29 @@ public class Model {
 
         notifyListener();
     }
+    void moveRackets(){
+        if(leftRacket.getIsMoveDown()){
+            if(leftRacket.getYPos() + leftRacket.getHeight() < height){
+                leftRacket.setYPos(leftRacket.getYPos()+leftRacket.getVelocity());
+            }
+        } else if(leftRacket.getIsMoveUp()) {
+            if (leftRacket.getYPos() > 0) {
+                leftRacket.setYPos(leftRacket.getYPos() - leftRacket.getVelocity());
+            }
+        }
+
+        if(rightRacket.getIsMoveDown()){
+            if(rightRacket.getYPos() + rightRacket.getHeight() < height){
+                rightRacket.setYPos(rightRacket.getYPos()+rightRacket.getVelocity());
+            }
+        } else if(rightRacket.getIsMoveUp()){
+            if (rightRacket.getYPos() > 0) {
+                rightRacket.setYPos(rightRacket.getYPos() - rightRacket.getVelocity());
+            }
+        }
+
+        notifyListener();
+    }
     public void setListener(ModelListener listener){
         this.listener = listener;
     }
@@ -97,30 +120,31 @@ public class Model {
     }
 
     public void moveLeftRacket(boolean isMoveDown){
-
         if(isMoveDown){
-            if(leftRacket.getYPos() + leftRacket.getHeight() < height){
-                leftRacket.setYPos(leftRacket.getYPos()+leftRacket.getVelocity());
-            }
-        } else {
-            if (leftRacket.getYPos() > 0) {
-                leftRacket.setYPos(leftRacket.getYPos() - leftRacket.getVelocity());
-            }
+            leftRacket.setIsMoveDown(true);
         }
-        notifyListener();
+        else{
+            leftRacket.setIsMoveUp(true);
+        }
     }
 
     public void moveRightRacket(boolean isMoveDown){
-            if(isMoveDown){
-                if(rightRacket.getYPos() + rightRacket.getHeight() < height){
-                    rightRacket.setYPos(rightRacket.getYPos()+rightRacket.getVelocity());
-                }
-            } else {
-                if (rightRacket.getYPos() > 0) {
-                    rightRacket.setYPos(rightRacket.getYPos() - rightRacket.getVelocity());
-                }
-            }
-        notifyListener();
+        if(isMoveDown){
+            rightRacket.setIsMoveDown(true);
+        }
+        else{
+            rightRacket.setIsMoveUp(true);
+        }
+    }
+
+    public void stopMoveLeftRacket(){
+        leftRacket.setIsMoveUp(false);
+        leftRacket.setIsMoveDown(false);
+    }
+
+    public void stopMoveRightRacket(){
+        rightRacket.setIsMoveUp(false);
+        rightRacket.setIsMoveDown(false);
     }
 
     public Racket getLeftRacket(){
