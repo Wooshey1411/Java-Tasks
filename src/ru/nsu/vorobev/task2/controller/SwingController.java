@@ -30,13 +30,11 @@ public class SwingController implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if(e.getKeyCode() == KeyEvent.VK_ENTER){
-            model.unfreezeTicker();
-        }
         int keyCode = e.getKeyCode();
         switch (keyCode){
             case KeyEvent.VK_DOWN, KeyEvent.VK_UP -> model.stopMoveRightRacket();
             case KeyEvent.VK_W, KeyEvent.VK_S -> model.stopMoveLeftRacket();
+            case KeyEvent.VK_ENTER -> model.unfreezeTicker();
         }
     }
 }

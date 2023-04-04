@@ -27,6 +27,7 @@ public class Model {
     }
     void moveBall() {
         boolean isVertReflected = false;
+        boolean isHorReflected = false;
         // top/bottom reflection
         if((ball.getYVelocity() < 0 && ball.getYPos() <= 0)
                 || (ball.getYVelocity() > 0 &&(ball.getYPos() + ball.getHeight()) >= height)){
@@ -40,33 +41,38 @@ public class Model {
         }
 
         // left reflection
-        if(ball.getXVelocity() < 0 && ball.getXPos() <= leftRacket.getWidth() &&
+        if(ball.getXVelocity() < 0 && ball.getXPos() + ball.getXVelocity() <= leftRacket.getWidth() &&
                 ( ball.getYPos() <= leftRacket.getYPos()+leftRacket.getHeight() && (ball.getYPos() + ball.getHeight()) > leftRacket.getYPos())){
             ball.setXVelocity(-ball.getXVelocity());
+            ball.setXPos(leftRacket.getWidth());
+            isHorReflected = true;
             ball.setXVelocity(ball.getXVelocity()+(int)(Math.random()*10));
             ball.setYVelocity(ball.getYVelocity()+(int)(Math.random()*10));
         }
         // right reflection
-        if(ball.getXVelocity() > 0 && (ball.getXPos() + ball.getWidth()) >= rightRacket.getXPos() &&
+        if(ball.getXVelocity() > 0 && (ball.getXPos() + ball.getWidth() + ball.getXVelocity()) >= rightRacket.getXPos() &&
                 ball.getYPos() <= rightRacket.getYPos()+rightRacket.getHeight() && (ball.getYPos() + ball.getHeight()) > rightRacket.getYPos()){
-            ball.setXVelocity(ball.getXVelocity()+(int)(Math.random()*10));
-            ball.setYVelocity(ball.getYVelocity()+(int)(Math.random()*10));
             ball.setXVelocity(-ball.getXVelocity());
+            ball.setXPos(rightRacket.getXPos());
+            isHorReflected = true;
+            ball.setXVelocity(ball.getXVelocity()-(int)(Math.random()*10));
+            ball.setYVelocity(ball.getYVelocity()+(int)(Math.random()*10));
         }
         // ball move
-        ball.setXPos(ball.getXPos()+ball.getXVelocity());
+        if(!isHorReflected) {
+            ball.setXPos(ball.getXPos() + ball.getXVelocity());
+        }
         if(!isVertReflected) {
             ball.setYPos(ball.getYPos() + ball.getYVelocity());
         }
+
         if(ball.getXPos() >= width){
             // left win
             leftScore++;
             ball.resetBall();
             leftRacket.resetRacket();
             rightRacket.resetRacket();
-            ball.setXVelocity(-ball.getXVelocity());
-          //  ball.setXVelocity((int)(Math.random()*40) - 20);
-           // ball.setYVelocity((int)(Math.random()*40) - 20);
+            ball.setXVelocity(-Math.abs(ball.getXVelocity()));
             ticker.freeze();
         }
         if(ball.getXPos()+ball.getWidth() <= 0){
@@ -75,9 +81,7 @@ public class Model {
             ball.resetBall();
             leftRacket.resetRacket();
             rightRacket.resetRacket();
-            ball.setXVelocity(-ball.getXVelocity());
-          //  ball.setXVelocity((int)(Math.random()*40) - 20);
-          //  ball.setYVelocity((int)(Math.random()*40) - 20);
+            ball.setXVelocity(Math.abs(ball.getXVelocity()));
             ticker.freeze();
         }
 
