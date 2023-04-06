@@ -27,8 +27,10 @@ public class Ticker implements Runnable  {
         }
     public synchronized void freeze(){
         isFrozen = true;
+        notifyAll();
     }
     public synchronized void unfreeze(){
         isFrozen = false;
+        notifyAll();
     }
 }

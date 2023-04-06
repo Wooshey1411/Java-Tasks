@@ -11,7 +11,6 @@ public class Model {
     private int rightScore;
     private final Ticker ticker;
 
-
     public Model(int width, int height) {
         this.width = width;
         this.height = height;
@@ -19,6 +18,8 @@ public class Model {
 
         leftRacket = new Racket(0,300 - 60,10,10,120);
         rightRacket = new Racket(width-10,300 - 60,10,10,120);
+        racketStock = ball.getHeight()*3/2;
+        centerArea = 10;
         leftScore = 0;
         rightScore = 0;
         ticker = new Ticker(this);
@@ -46,8 +47,8 @@ public class Model {
             ball.setXVelocity(-ball.getXVelocity());
             ball.setXPos(leftRacket.getWidth());
             isHorReflected = true;
-            ball.setXVelocity(ball.getXVelocity()+(int)(Math.random()*10));
-            ball.setYVelocity(ball.getYVelocity()+(int)(Math.random()*10));
+            ball.setXVelocity(ball.getXVelocity()+(int)(Math.random()*5));
+            ball.setYVelocity(ball.getYVelocity()+(int)(Math.random()*5));
         }
         // right reflection
         if(ball.getXVelocity() > 0 && (ball.getXPos() + ball.getWidth() + ball.getXVelocity()) >= rightRacket.getXPos() &&
@@ -55,8 +56,8 @@ public class Model {
             ball.setXVelocity(-ball.getXVelocity());
             ball.setXPos(rightRacket.getXPos());
             isHorReflected = true;
-            ball.setXVelocity(ball.getXVelocity()-(int)(Math.random()*10));
-            ball.setYVelocity(ball.getYVelocity()+(int)(Math.random()*10));
+            ball.setXVelocity(ball.getXVelocity()-(int)(Math.random()*5));
+            ball.setYVelocity(ball.getYVelocity()+(int)(Math.random()*5));
         }
         // ball move
         if(!isHorReflected) {
@@ -87,7 +88,69 @@ public class Model {
 
         notifyListener();
     }
+
+    boolean isSingle = false;
+    private final int racketStock;
+    private final int centerArea;
+
+    void moveRacketsSingle(){
+        // centralize racket position
+        if(ball.getXVelocity() < 0){
+            if((rightRacket.getYPos()+rightRacket.getHeight()/2) > height/2 - centerArea &&
+                    (rightRacket.getYPos()+rightRacket.getHeight()/2) < height/2 + centerArea ){
+                stopMoveRightRacket();
+                return;
+            }
+            if((rightRacket.getYPos()+rightRacket.getHeight()/2) > height/2 + centerArea){
+                moveRightRacket(false);
+                return;
+            }
+            if((rightRacket.getYPos()+rightRacket.getHeight()/2) < height/2 - centerArea){
+                moveRightRacket(true);
+                return;
+            }
+        }
+
+
+        // stay ball at [rightRacket.getYPos() + racketStock ; rightRacket.getYPos() + rightRacket.getHeight() - racketStock]
+        if(ball.getYPos() + ball.getHeight() > rightRacket.getYPos() + racketStock && ball.getYPos() < rightRacket.getYPos() + rightRacket.getHeight() - racketStock){
+            stopMoveRightRacket();
+            return;
+        }
+
+        if(ball.getYVelocity() > 0 && ball.getYPos() + ball.getYVelocity()/2 < rightRacket.getHeight()+rightRacket.getYPos() - racketStock){
+            moveRightRacket(false); // ball move down and racket lower than ball -> move up
+            return;
+        } else if(ball.getYVelocity() > 0 && ball.getYPos()+ball.getHeight() + ball.getYVelocity()/2 > rightRacket.getYPos() + racketStock){
+            moveRightRacket(true); // ball move down and racket higher than ball -> move down
+            return;
+        }
+
+        if(ball.getYVelocity() < 0 && ball.getYPos()+ball.getHeight() + ball.getYVelocity()/2 < rightRacket.getYPos() + racketStock){
+            moveRightRacket(false); // ball move up and racket lower than ball -> move up
+            return;
+        } else if(ball.getYVelocity() < 0 && ball.getYPos() + ball.getYVelocity()/2 > rightRacket.getHeight() + rightRacket.getYPos() - racketStock){
+            moveRightRacket(true); // ball move up and racket higher than ball -> move down
+            return;
+        }
+
+        if(ball.getYVelocity() == 0){
+            if(ball.getYPos()+ball.getHeight() + ball.getYVelocity()/2 < rightRacket.getYPos() + racketStock){
+                moveRightRacket(false);
+                return;
+            }
+            else if (ball.getYPos() + ball.getYVelocity()/2 > rightRacket.getYPos() + rightRacket.getHeight() - racketStock){
+                moveRightRacket(true);
+                return;
+            }
+        }
+    }
     void moveRackets(){
+
+        if(!isSingle){
+            moveRacketsSingle();
+        }
+
         if(leftRacket.getIsMoveDown()){
             if(leftRacket.getYPos() + leftRacket.getHeight() < height){
                 leftRacket.setYPos(leftRacket.getYPos()+leftRacket.getVelocity());
@@ -125,18 +188,22 @@ public class Model {
 
     public void moveLeftRacket(boolean isMoveDown){
         if(isMoveDown){
+            leftRacket.setIsMoveUp(false);
             leftRacket.setIsMoveDown(true);
         }
         else{
+            leftRacket.setIsMoveDown(false);
             leftRacket.setIsMoveUp(true);
         }
     }
 
     public void moveRightRacket(boolean isMoveDown){
         if(isMoveDown){
+            rightRacket.setIsMoveUp(false);
             rightRacket.setIsMoveDown(true);
         }
         else{
+            rightRacket.setIsMoveDown(false);
             rightRacket.setIsMoveUp(true);
         }
     }
