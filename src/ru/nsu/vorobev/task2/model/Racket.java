@@ -22,9 +22,10 @@ public class Racket {
         isMoveDown = false;
     }
 
-    public void resetRacket(){
+    public void resetRacket() {
         yPos = initYPos;
     }
+
     public int getXPos() {
         return xPos;
     }
@@ -60,6 +61,7 @@ public class Racket {
     public void setIsMoveUp(boolean isMoveUp) {
         this.isMoveUp = isMoveUp;
     }
+
     public boolean getIsMoveUp() {
         return isMoveUp;
     }

@@ -10,6 +10,11 @@ public class Model {
     private int leftScore;
     private int rightScore;
     private final Ticker ticker;
+    boolean isSingle;
+    private final int racketStock;
+    private final int centerArea;
+    private String leftPlayerName;
+    private String rightPlayerName;
 
     public Model(int width, int height) {
         this.width = width;
@@ -19,13 +24,14 @@ public class Model {
         leftRacket = new Racket(0,300 - 60,10,10,120);
         rightRacket = new Racket(width-10,300 - 60,10,10,120);
         racketStock = ball.getHeight()*3/2;
-        centerArea = 10;
+        centerArea = 15;
         leftScore = 0;
         rightScore = 0;
         ticker = new Ticker(this);
         ticker.work();
         ticker.freeze();
     }
+
     void moveBall() {
         boolean isVertReflected = false;
         boolean isHorReflected = false;
@@ -88,11 +94,6 @@ public class Model {
 
         notifyListener();
     }
-
-    boolean isSingle = false;
-    private final int racketStock;
-    private final int centerArea;
-
     void moveRacketsSingle(){
         // centralize racket position
         if(ball.getXVelocity() < 0){
@@ -137,17 +138,15 @@ public class Model {
         if(ball.getYVelocity() == 0){
             if(ball.getYPos()+ball.getHeight() + ball.getYVelocity()/2 < rightRacket.getYPos() + racketStock){
                 moveRightRacket(false);
-                return;
             }
             else if (ball.getYPos() + ball.getYVelocity()/2 > rightRacket.getYPos() + rightRacket.getHeight() - racketStock){
                 moveRightRacket(true);
-                return;
             }
         }
     }
     void moveRackets(){
 
-        if(!isSingle){
+        if(isSingle){
             moveRacketsSingle();
         }
 
@@ -234,6 +233,20 @@ public class Model {
     }
     public void unfreezeTicker(){
         ticker.unfreeze();
-       // notifyListener();
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setIsSingle(boolean isSingle){
+        this.isSingle = isSingle;
+    }
+    public boolean getIsSingle(){
+        return isSingle;
     }
 }

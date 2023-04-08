@@ -13,7 +13,7 @@ public class Ball {
     private final int initXVelocity;
     private final int initYVelocity;
 
-    public Ball(int xPos,int yPos, int xVelocity, int yVelocity, int width, int height){
+    public Ball(int xPos, int yPos, int xVelocity, int yVelocity, int width, int height) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.xVelocity = xVelocity;
@@ -25,7 +25,8 @@ public class Ball {
         initXVelocity = xVelocity;
         initYVelocity = yVelocity;
     }
-    public void resetBall(){
+
+    public void resetBall() {
         xPos = initXPos;
         yPos = initYPos;
         xVelocity = initXVelocity;
