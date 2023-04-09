@@ -63,7 +63,7 @@ public class SwingGameView extends JFrame implements ModelListener {
         bufferStrategy.show();
     }
 
-    private void createWindow(JFrame window,SwingGameController controller) {
+    private void createWindow(JFrame window, SwingGameController controller) {
         SwingUtilities.invokeLater(() -> {
             window.setResizable(false);
             window.setTitle("Witcher 3: The Wild Hunt");

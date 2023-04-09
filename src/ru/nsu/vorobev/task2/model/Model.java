@@ -2,6 +2,7 @@ package ru.nsu.vorobev.task2.model;
 public class Model {
 
     private ModelListener listener;
+    private State currState;
     private final int width;
     private final int height;
     private final Ball ball;
@@ -15,10 +16,15 @@ public class Model {
     private final int centerArea;
     private String leftPlayerName;
     private String rightPlayerName;
+    private boolean isFirstPlayerEntered;
 
     public Model(int width, int height) {
         this.width = width;
         this.height = height;
+        isFirstPlayerEntered = false;
+        leftPlayerName = "";
+        rightPlayerName = "";
+        currState = State.INPUT_LEFT_PLAYER;
         ball = new Ball(width/2 - 6,height/2,5,5,13,13);
 
         leftRacket = new Racket(0,300 - 60,10,10,120);
@@ -248,5 +254,38 @@ public class Model {
     }
     public boolean getIsSingle(){
         return isSingle;
+    }
+
+    public void setLeftPlayerName(String leftPlayerName) {
+        this.leftPlayerName = leftPlayerName;
+        notifyListener();
+    }
+
+    public void setRightPlayerName(String rightPlayerName) {
+        this.rightPlayerName = rightPlayerName;
+        notifyListener();
+    }
+
+    public String getLeftPlayerName() {
+        return leftPlayerName;
+    }
+
+    public String getRightPlayerName() {
+        return rightPlayerName;
+    }
+
+    public boolean getIsFirstPlayerEntered(){
+        return  isFirstPlayerEntered;
+    }
+    public void setIsFirstPlayerEntered(boolean isFirstPlayerEntered){
+        this.isFirstPlayerEntered = isFirstPlayerEntered;
+    }
+
+    public State getCurrState() {
+        return currState;
+    }
+
+    public void setCurrState(State currState) {
+        this.currState = currState;
     }
 }

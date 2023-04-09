@@ -1,6 +1,6 @@
 package ru.nsu.vorobev.task2.view.swing.menu;
 
-import ru.nsu.vorobev.task2.controller.swing.menu.MainWindowGoToGameController;
+import ru.nsu.vorobev.task2.controller.swing.menu.SwingMainWindowController;
 import ru.nsu.vorobev.task2.model.Model;
 
 import javax.swing.*;
@@ -14,7 +14,7 @@ public class SwingMainWindow extends JFrame {
         JButton twoPlayersButton = new JButton("Two players play");
         add(singleGameButton);
         add(twoPlayersButton);
-        MainWindowGoToGameController goToGameController = new MainWindowGoToGameController(model,this);
+        SwingMainWindowController goToGameController = new SwingMainWindowController(model,this);
         singleGameButton.addActionListener(goToGameController);
         twoPlayersButton.addActionListener(goToGameController);
 
