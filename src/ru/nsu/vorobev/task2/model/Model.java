@@ -1,4 +1,9 @@
 package ru.nsu.vorobev.task2.model;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
+
 public class Model {
 
     private ModelListener listener;
@@ -18,13 +23,31 @@ public class Model {
     private String rightPlayerName;
     private boolean isFirstPlayerEntered;
 
+
+    private final Map<String,Integer> historyMapSingle = new HashMap<>(){};
+    private final Map<String,Integer> historyMapMultiplayer = new HashMap<>();
+    private int maxScore;
     public Model(int width, int height) {
         this.width = width;
         this.height = height;
         isFirstPlayerEntered = false;
-        leftPlayerName = "";
-        rightPlayerName = "";
+        leftPlayerName = ModelUtils.defaultLeftPlayerName;
+        rightPlayerName = ModelUtils.defaultRightPlayerName;
         currState = State.INPUT_LEFT_PLAYER;
+        maxScore = ModelUtils.defaultMaxScore;
+
+        try(GameReader reader = new GameReader(true)){
+            reader.read(historyMapSingle);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        try(GameReader reader = new GameReader(false)){
+            reader.read(historyMapMultiplayer);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
         ball = new Ball(width/2 - 6,height/2,5,5,13,13);
 
         leftRacket = new Racket(0,300 - 60,10,10,120);
@@ -81,7 +104,7 @@ public class Model {
 
         if(ball.getXPos() >= width){
             // left win
-            leftScore++;
+            increaseScore(true);
             ball.resetBall();
             leftRacket.resetRacket();
             rightRacket.resetRacket();
@@ -90,7 +113,7 @@ public class Model {
         }
         if(ball.getXPos()+ball.getWidth() <= 0){
             // right win
-            rightScore++;
+            increaseScore(false);
             ball.resetBall();
             leftRacket.resetRacket();
             rightRacket.resetRacket();
@@ -287,5 +310,42 @@ public class Model {
 
     public void setCurrState(State currState) {
         this.currState = currState;
+    }
+    public void setMaxScore(int maxScore){
+        this.maxScore = maxScore;
+        notifyListener();
+    }
+    private void increaseScore(boolean isLeft){
+        if (isLeft){
+            leftScore++;
+        }
+        else {
+            rightScore++;
+        }
+        if(leftScore >= maxScore || rightScore >= maxScore){
+            endGame();
+        }
+    }
+
+    private void endGame(){
+        if(maxScore == ModelUtils.inTopScore){
+            try(GameWriter writer = new GameWriter(isSingle)){
+                if(leftScore == maxScore){
+                    writer.write(leftPlayerName);
+                } else {
+                    writer.write(rightPlayerName);
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public Map<String, Integer> getHistoryMapSingle() {
+        return ModelUtils.sortByValue(historyMapSingle);
+    }
+
+    public Map<String, Integer> getHistoryMapMultiplayer() {
+        return ModelUtils.sortByValue(historyMapMultiplayer);
     }
 }

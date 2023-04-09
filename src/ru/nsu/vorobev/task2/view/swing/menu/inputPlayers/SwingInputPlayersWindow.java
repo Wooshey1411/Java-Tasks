@@ -2,6 +2,7 @@ package ru.nsu.vorobev.task2.view.swing.menu.inputPlayers;
 
 import ru.nsu.vorobev.task2.controller.swing.menu.inputPlayers.SwingInputPlayersWindowController;
 import ru.nsu.vorobev.task2.model.Model;
+import ru.nsu.vorobev.task2.model.ModelUtils;
 import ru.nsu.vorobev.task2.model.ModelListener;
 import ru.nsu.vorobev.task2.model.State;
 
@@ -46,12 +47,25 @@ public class SwingInputPlayersWindow extends JFrame implements ModelListener {
         }
 
         if(model.getCurrState() == State.NAME_INPUT_ERROR){
-            JOptionPane.showMessageDialog(this,"Name must contains from 1 to 20 symbols", "Warning",JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this,"Name must contains from 1 to " + ModelUtils.limitOfNameLength + " symbols", "Warning",JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if(model.getCurrState() == State.BAD_NUMBER_INPUT){
+            JOptionPane.showMessageDialog(this,"Score must be integer number", "Warning",JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if(model.getCurrState() == State.BAD_SCORE_INPUT){
+            JOptionPane.showMessageDialog(this,"Score must be from 1 to "+ ModelUtils.limitOfScore, "Warning",JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         if(model.getCurrState() == State.INPUT_RIGHT_PLAYER) {
             currPlayerLabel.setText("Enter second player name");
+        }
+        if(model.getCurrState() == State.INPUT_SCORE){
+            currPlayerLabel.setText("Enter maximum score");
         }
         pack();
     }

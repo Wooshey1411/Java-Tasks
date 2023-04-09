@@ -1,30 +1,32 @@
 package ru.nsu.vorobev.task2.view.swing.menu;
 
-import ru.nsu.vorobev.task2.controller.swing.menu.SwingMainWindowController;
+import ru.nsu.vorobev.task2.controller.swing.menu.SwingMenuWindowController;
 import ru.nsu.vorobev.task2.model.Model;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class SwingMainWindow extends JFrame {
+public class SwingMenuWindow extends JFrame {
 
-    public SwingMainWindow(Model model) {
+    public SwingMenuWindow(Model model) {
         setLayout(new FlowLayout());
         JButton singleGameButton = new JButton("Single play");
         JButton twoPlayersButton = new JButton("Two players play");
+        JButton exitButton = new JButton("Exit");
         add(singleGameButton);
         add(twoPlayersButton);
-        SwingMainWindowController goToGameController = new SwingMainWindowController(model,this);
-        singleGameButton.addActionListener(goToGameController);
-        twoPlayersButton.addActionListener(goToGameController);
-
+        add(exitButton);
+        SwingMenuWindowController menuController = new SwingMenuWindowController(model,this);
+        singleGameButton.addActionListener(menuController);
+        twoPlayersButton.addActionListener(menuController);
+        exitButton.addActionListener(menuController);
         pack();
     }
 
     public static void main(String[] args) {
         Model model = new Model(800,600);
         SwingUtilities.invokeLater(()->{
-            SwingMainWindow window = new SwingMainWindow(model);
+            SwingMenuWindow window = new SwingMenuWindow(model);
             window.setPreferredSize(new Dimension(800,600));
             window.setResizable(false);
             window.setLocation(300,330);

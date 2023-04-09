@@ -1,6 +1,7 @@
 package ru.nsu.vorobev.task2.controller.swing.menu.inputPlayers;
 
 import ru.nsu.vorobev.task2.model.Model;
+import ru.nsu.vorobev.task2.model.ModelUtils;
 import ru.nsu.vorobev.task2.model.State;
 import ru.nsu.vorobev.task2.view.swing.game.SwingGameView;
 
@@ -25,50 +26,71 @@ public class SwingInputPlayersWindowController implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        String name = "";
+        String str = "";
         int length = 0;
         try {
             length = document.getLength();
-            name = document.getText(0, length);
+            str = document.getText(0, length);
             document.remove(0,document.getLength());
         } catch (BadLocationException ex) {
             ex.printStackTrace();
         }
 
-        if(Objects.equals(name, "") || length > 20){
+        if(model.getCurrState() != State.INPUT_SCORE && (Objects.equals(str, "") || length > ModelUtils.limitOfNameLength)){
             State currState = model.getCurrState();
             model.setCurrState(State.NAME_INPUT_ERROR);
-            model.setRightPlayerName("");
+            model.setRightPlayerName(ModelUtils.defaultRightPlayerName);
             model.setCurrState(currState);
             return;
         }
 
+        if(model.getCurrState() == State.INPUT_SCORE){
+            try{
+                int score = Integer.parseInt(str);
+                if (score < 1 || score > ModelUtils.limitOfScore){
+                    model.setCurrState(State.BAD_SCORE_INPUT);
+                    model.setMaxScore(ModelUtils.defaultMaxScore);
+                    model.setCurrState(State.INPUT_SCORE);
+                    return;
+                }
+                model.setMaxScore(score);
+                model.setCurrState(State.PLAYING);
+            } catch (NumberFormatException ex){
+                model.setCurrState(State.BAD_NUMBER_INPUT);
+                model.setMaxScore(ModelUtils.defaultMaxScore);
+                model.setCurrState(State.INPUT_SCORE);
+                return;
+            }
+        }
+
         if (model.getCurrState() == State.INPUT_LEFT_PLAYER) {
-            model.setLeftPlayerName(name);
+            model.setLeftPlayerName(str);
             if(model.getIsSingle()){
-                if(Objects.equals(name, "Computer")){
+                if(Objects.equals(str, ModelUtils.defaultSingleEnemyName)){
                     model.setCurrState(State.EQUAL_NAMES_ERROR);
-                    model.setRightPlayerName("");
+                    model.setRightPlayerName(ModelUtils.defaultRightPlayerName);
                     model.setCurrState(State.INPUT_LEFT_PLAYER);
                     return;
                 }
-                model.setRightPlayerName("Computer");
-                model.setCurrState(State.PLAYING);
+                model.setRightPlayerName(ModelUtils.defaultSingleEnemyName);
+                model.setCurrState(State.INPUT_SCORE);
+                model.setMaxScore(0);
             } else{
                 model.setCurrState(State.INPUT_RIGHT_PLAYER);
-                model.setRightPlayerName("");
+                model.setRightPlayerName(ModelUtils.defaultRightPlayerName);
             }
         }
-        else{
-            model.setRightPlayerName(name);
-            if(Objects.equals(name, model.getLeftPlayerName())){
+        else if(model.getCurrState() == State.INPUT_RIGHT_PLAYER){
+            model.setRightPlayerName(str);
+            if(Objects.equals(str, model.getLeftPlayerName())){
                 model.setCurrState(State.EQUAL_NAMES_ERROR);
-                model.setRightPlayerName("");
+                model.setRightPlayerName(ModelUtils.defaultRightPlayerName);
                 model.setCurrState(State.INPUT_RIGHT_PLAYER);
                 return;
             }
-            model.setRightPlayerName(name);
-            model.setCurrState(State.PLAYING);
+            model.setRightPlayerName(str);
+            model.setCurrState(State.INPUT_SCORE);
+            model.setMaxScore(0);
         }
 
         if(model.getCurrState() == State.PLAYING){
