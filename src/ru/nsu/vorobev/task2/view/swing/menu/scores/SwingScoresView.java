@@ -59,14 +59,13 @@ public class SwingScoresView extends JFrame {
             multiPanel.setPreferredSize(new Dimension(370,240));
             multiPanel.setLayout(new BoxLayout(multiPanel,BoxLayout.Y_AXIS));
             multiPanel.setFont(font);
-            multiChampions.get(9).setText("12345678901234567890 wins 100 games");
             for (int i = 0; i < 10; i++){
                 singlePanel.add(singleChampions.get(i));
                 multiPanel.add(multiChampions.get(i));
             }
 
-            pane.add("single",singlePanel);
-            pane.add("multi",multiPanel);
+            pane.add("single play",singlePanel);
+            pane.add("multi play",multiPanel);
             add(pane);
             setSize(400,296);
             addWindowListener(new Controller());

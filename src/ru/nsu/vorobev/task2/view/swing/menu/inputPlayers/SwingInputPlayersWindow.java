@@ -20,6 +20,7 @@ public class SwingInputPlayersWindow extends JFrame implements ModelListener {
         model.setListener(this);
         SwingUtilities.invokeLater(() -> {
             setLocation(600, 300);
+            setResizable(false);
             setTitle("input players");
             setLayout(new FlowLayout());
             JTextField textField = new JTextField(20);
