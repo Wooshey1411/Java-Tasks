@@ -23,12 +23,12 @@ public class SwingGameController implements KeyListener {
         int keyCode = e.getKeyCode();
         switch (keyCode) {
             case KeyEvent.VK_DOWN -> {
-                if(!model.getIsSingle()) {
+                if (!model.getIsSingle()) {
                     model.moveRightRacket(true);
                 }
             }
             case KeyEvent.VK_UP -> {
-                if(!model.getIsSingle()) {
+                if (!model.getIsSingle()) {
                     model.moveRightRacket(false);
                 }
             }
@@ -43,8 +43,8 @@ public class SwingGameController implements KeyListener {
         int keyCode = e.getKeyCode();
         switch (keyCode) {
             case KeyEvent.VK_DOWN, KeyEvent.VK_UP -> {
-                if(!model.getIsSingle()){
-                model.stopMoveRightRacket();
+                if (!model.getIsSingle()) {
+                    model.stopMoveRightRacket();
                 }
             }
             case KeyEvent.VK_W, KeyEvent.VK_S -> model.stopMoveLeftRacket();

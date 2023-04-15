@@ -13,21 +13,23 @@ import java.awt.*;
 
 public class SwingInputPlayersWindow extends JFrame implements ModelListener {
     private final Model model;
-    JLabel currPlayerLabel = new JLabel();
-    public SwingInputPlayersWindow(Model model){
+    private final JLabel currPlayerLabel = new JLabel();
+    private final JButton enterButton = new JButton("Enter name");
+    public SwingInputPlayersWindow(Model model) {
         this.model = model;
         model.setListener(this);
-        SwingUtilities.invokeLater(() ->{
+        SwingUtilities.invokeLater(() -> {
+            setLocation(600, 300);
+            setTitle("input players");
             setLayout(new FlowLayout());
             JTextField textField = new JTextField(20);
-            JButton enterButton = new JButton("Enter name");
             Document textModel = new PlainDocument();
-            SwingInputPlayersWindowController controller = new SwingInputPlayersWindowController(model,textModel,this);
+            SwingInputPlayersWindowController controller = new SwingInputPlayersWindowController(model, textModel, this);
             textField.setDocument(textModel);
             enterButton.addActionListener(controller);
-            if(model.getIsSingle()){
+            if (model.getIsSingle()) {
                 currPlayerLabel.setText("Enter player name");
-            } else{
+            } else {
                 currPlayerLabel.setText("Enter first player name");
             }
             setDefaultCloseOperation(this.EXIT_ON_CLOSE);
@@ -41,30 +43,31 @@ public class SwingInputPlayersWindow extends JFrame implements ModelListener {
     @Override
     public void onModelChanged() {
 
-        if(model.getCurrState() == State.EQUAL_NAMES_ERROR){
-            JOptionPane.showMessageDialog(this,"Name of right player must not be the same name of lest player! ", "Warning",JOptionPane.WARNING_MESSAGE);
+        if (model.getCurrState() == State.EQUAL_NAMES_ERROR) {
+            JOptionPane.showMessageDialog(this, "Name of right player must not be the same name of lest player! ", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        if(model.getCurrState() == State.NAME_INPUT_ERROR){
-            JOptionPane.showMessageDialog(this,"Name must contains from 1 to " + ModelUtils.limitOfNameLength + " symbols", "Warning",JOptionPane.WARNING_MESSAGE);
+        if (model.getCurrState() == State.NAME_INPUT_ERROR) {
+            JOptionPane.showMessageDialog(this, "Name must contains from 1 to " + ModelUtils.limitOfNameLength + " symbols", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        if(model.getCurrState() == State.BAD_NUMBER_INPUT){
-            JOptionPane.showMessageDialog(this,"Score must be integer number", "Warning",JOptionPane.WARNING_MESSAGE);
+        if (model.getCurrState() == State.BAD_NUMBER_INPUT) {
+            JOptionPane.showMessageDialog(this, "Score must be integer number", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        if(model.getCurrState() == State.BAD_SCORE_INPUT){
-            JOptionPane.showMessageDialog(this,"Score must be from 1 to "+ ModelUtils.limitOfScore, "Warning",JOptionPane.WARNING_MESSAGE);
+        if (model.getCurrState() == State.BAD_SCORE_INPUT) {
+            JOptionPane.showMessageDialog(this, "Score must be from 1 to " + ModelUtils.limitOfScore, "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        if(model.getCurrState() == State.INPUT_RIGHT_PLAYER) {
+        if (model.getCurrState() == State.INPUT_RIGHT_PLAYER) {
             currPlayerLabel.setText("Enter second player name");
         }
-        if(model.getCurrState() == State.INPUT_SCORE){
+        if (model.getCurrState() == State.INPUT_SCORE) {
+            enterButton.setText("Enter score");
             currPlayerLabel.setText("Enter maximum score");
         }
         pack();

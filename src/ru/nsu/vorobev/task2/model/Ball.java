@@ -7,7 +7,6 @@ public class Ball {
     private int yVelocity;
     private final int width;
     private final int height;
-
     private final int initXPos;
     private final int initYPos;
     private final int initXVelocity;

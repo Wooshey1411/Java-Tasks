@@ -3,29 +3,28 @@ package ru.nsu.vorobev.task2.view.swing.game;
 import ru.nsu.vorobev.task2.controller.swing.game.SwingGameController;
 import ru.nsu.vorobev.task2.model.Model;
 import ru.nsu.vorobev.task2.model.ModelListener;
+import ru.nsu.vorobev.task2.model.Visible;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
-public class SwingGameView extends JFrame implements ModelListener {
+public class SwingGameView extends JFrame implements ModelListener, Visible {
 
     private final Model model;
     private final int width;
     private final int height;
-
-    private int rightAddition;
     private int topAddition;
-    private int bottomAddition;
     private int leftAddition;
 
     public SwingGameView(Model model) {
         this.model = model;
         model.setListener(this);
+        model.setVisibleGameWindow(this);
         this.width = model.getWidth();
         this.height = model.getHeight();
         SwingGameController controller = new SwingGameController(model);
-        this.createWindow(this,controller);
+        this.createWindow(this, controller);
     }
 
     @Override
@@ -86,19 +85,22 @@ public class SwingGameView extends JFrame implements ModelListener {
             window.setLocation(350, 140);
             window.setVisible(true);
             Insets insets = window.getInsets();
-            setAdditions(insets.top, insets.bottom, insets.left, insets.right);
+            setAdditions(insets.top, insets.left);
         });
     }
 
-    void setAdditions(int topAddition, int bottomAddition, int leftAddition, int rightAddition) {
+    void setAdditions(int topAddition, int leftAddition) {
         this.topAddition = topAddition;
-        this.bottomAddition = bottomAddition;
         this.leftAddition = leftAddition;
-        this.rightAddition = rightAddition;
     }
 
     @Override
     public void onModelChanged() {
         repaint();
+    }
+
+    @Override
+    public void setVisibleOnWindow(boolean visible) {
+        setVisible(visible);
     }
 }
