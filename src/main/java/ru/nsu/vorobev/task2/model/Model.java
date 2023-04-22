@@ -357,13 +357,14 @@ public class Model {
             }
         }
 
-        visibleMainWindow.setVisibleOnWindow(false);
-        revivingWindow.revive();
-
         leftScore = 0;
         rightScore = 0;
         stopMoveRightRacket();
-        stopMoveRightRacket();
+        stopMoveLeftRacket();
+
+        visibleMainWindow.setVisibleOnWindow(false);
+        revivingWindow.revive();
+
     }
 
     public Map<String, Integer> getHistoryMapSingle() {

@@ -20,7 +20,7 @@ public class MenuController {
         this.model = model;
     }
 
-    private void makeWindow() throws IOException {
+    private void makeGameWindow() throws IOException {
         FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(Menu.class.getResource("inputPlayersView.fxml")));
         Parent root = loader.load();
         Stage stage = new Stage();
@@ -39,11 +39,38 @@ public class MenuController {
     @FXML
     protected void onSinglePlayButtonClick() throws IOException {
         model.setIsSingle(true);
-        makeWindow();
+        makeGameWindow();
     }
     @FXML
     protected void onMultiPlayButtonClick() throws IOException {
         model.setIsSingle(false);
-        makeWindow();
+        makeGameWindow();
+    }
+    @FXML
+    protected void onHighScoresButtonClick() throws IOException {
+        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(Menu.class.getResource("highScoresView.fxml")));
+        Parent root = loader.load();
+        Stage stage = new Stage();
+        stage.setTitle("High Scores");
+        stage.setResizable(false);
+        stage.setScene(new Scene(root,400,300));
+        ((HighScoresController)loader.getController()).init(model);
+        stage.show();
+    }
+    @FXML
+    protected void onQuitButtonClick(){
+       model.close();
+       Platform.exit();
+    }
+    @FXML
+    protected void onAboutButtonClick() throws IOException {
+        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(Menu.class.getResource("aboutView.fxml")));
+        Parent root = loader.load();
+        Stage stage = new Stage();
+        stage.setTitle("About");
+        stage.setResizable(false);
+        stage.setScene(new Scene(root,400,320));
+        ((AboutController)loader.getController()).init();
+        stage.show();
     }
 }

@@ -5,33 +5,30 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="181.0"
-            prefWidth="363.0" style="-fx-background-color: #2E3348;" xmlns="http://javafx.com/javafx/19"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="ru.nsu.vorobev.task2.fxgui.MenuController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="180.0" prefWidth="360.0" style="-fx-background-color: #2E3348;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.nsu.vorobev.task2.fxgui.MenuController">
    <Label layoutX="108.0" prefHeight="38.0" prefWidth="146.0" text="Pong game" textFill="WHITE">
       <font>
-         <Font name="Comic Sans MS" size="30.0"/>
+         <Font name="Comic Sans MS" size="30.0" />
       </font>
    </Label>
-   <AnchorPane layoutY="48.0" prefHeight="132.0" prefWidth="363.0" style="-fx-background-color: #FFFFFF;">
+   <AnchorPane layoutY="48.0" prefHeight="132.0" prefWidth="360.0" style="-fx-background-color: #FFFFFF;">
       <Label layoutX="14.0" layoutY="14.0" prefHeight="31.0" prefWidth="104.0" text="Start game" textFill="#e49535">
          <font>
-            <Font size="20.0"/>
+            <Font size="20.0" />
          </font>
       </Label>
-      <Button fx:id="singlePlay" layoutX="118.0" layoutY="14.0" mnemonicParsing="false" prefHeight="31.0"
-              prefWidth="104.0" text="Single play" onAction="#onSinglePlayButtonClick">
+      <Button fx:id="singlePlay" layoutX="118.0" layoutY="14.0" mnemonicParsing="false" onAction="#onSinglePlayButtonClick" prefHeight="31.0" prefWidth="104.0" text="Single play">
          <font>
-            <Font size="14.0"/>
+            <Font size="14.0" />
          </font>
       </Button>
-      <Button layoutX="230.0" layoutY="14.0" mnemonicParsing="false" prefHeight="31.0"
-              prefWidth="104.0" text="Multi play" onAction="#onMultiPlayButtonClick">
+      <Button layoutX="230.0" layoutY="14.0" mnemonicParsing="false" onAction="#onMultiPlayButtonClick" prefHeight="31.0" prefWidth="104.0" text="Multi play">
          <font>
-            <Font size="14.0"/>
+            <Font size="14.0" />
          </font>
       </Button>
+      <Button  layoutX="118.0" layoutY="68.0" mnemonicParsing="false" onAction="#onHighScoresButtonClick" prefHeight="31.0" prefWidth="104.0" text="High Scores" />
+      <Button  layoutX="282.0" layoutY="105.0" mnemonicParsing="false" onAction="#onQuitButtonClick" prefHeight="31.0" prefWidth="78.0" text="Quit" />
+      <Button  layoutY="105.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="78.0" text="About" onAction="#onAboutButtonClick" />
    </AnchorPane>
 </AnchorPane>

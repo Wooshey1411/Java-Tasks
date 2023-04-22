@@ -45,7 +45,6 @@ public class InputPlayersController extends InputPlayersView {
                     model.setCurrState(State.INPUT_LEFT_PLAYER);
                     return;
                 }
-                model.setLeftPlayerName(data);
                 if(model.getIsSingle()){
                     model.setCurrState(State.INPUT_SCORE);
                     model.setRightPlayerName(ModelUtils.defaultSingleEnemyName);
@@ -53,6 +52,7 @@ public class InputPlayersController extends InputPlayersView {
                     model.setCurrState(State.INPUT_RIGHT_PLAYER);
                 }
 
+                model.setLeftPlayerName(data);
             }
             case INPUT_RIGHT_PLAYER -> {
                 if(isLenError){

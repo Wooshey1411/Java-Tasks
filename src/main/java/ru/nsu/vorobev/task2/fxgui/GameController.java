@@ -55,7 +55,7 @@ public class GameController extends GameView {
         stageL.setTitle("Game is end");
         stageL.setResizable(false);
         stageL.initStyle(StageStyle.UNDECORATED);
-        stageL.setScene(new Scene(root,250,75));
+        stageL.setScene(new Scene(root,350,75));
         ((EndGameController)loader.getController()).setModel(model);
     }
 
