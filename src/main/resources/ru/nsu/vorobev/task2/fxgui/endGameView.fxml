@@ -7,7 +7,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0"
             prefWidth="250.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="ru.nsu.vorobev.task2.controller.javafx.EndGameController">
+            fx:controller="ru.nsu.vorobev.task2.fxgui.EndGameController">
    <Label fx:id="message" alignment="CENTER" layoutX="7.0" layoutY="5.0" prefHeight="15.0" prefWidth="239.0"
           text="Label"/>
    <Button fx:id="continueBtn" layoutX="38.0" layoutY="37.0" mnemonicParsing="false" text="Continue"

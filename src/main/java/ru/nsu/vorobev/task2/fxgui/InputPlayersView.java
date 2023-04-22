@@ -1,4 +1,4 @@
-package ru.nsu.vorobev.task2.view.javafx;
+package ru.nsu.vorobev.task2.fxgui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;

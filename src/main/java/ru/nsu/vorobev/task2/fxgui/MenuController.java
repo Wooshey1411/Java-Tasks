@@ -1,5 +1,6 @@
-package ru.nsu.vorobev.task2.controller.javafx;
+package ru.nsu.vorobev.task2.fxgui;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -7,8 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import ru.nsu.vorobev.task2.model.Model;
-import ru.nsu.vorobev.task2.view.javafx.Menu;
-
 import java.io.IOException;
 import java.util.Objects;
 
@@ -32,6 +31,10 @@ public class MenuController {
         stage.show();
         Stage stageM = (Stage) singlePlay.getScene().getWindow();
         stageM.close();
+        stage.setOnCloseRequest(windowEvent -> {
+            model.close();
+            Platform.exit();
+        });
     }
     @FXML
     protected void onSinglePlayButtonClick() throws IOException {

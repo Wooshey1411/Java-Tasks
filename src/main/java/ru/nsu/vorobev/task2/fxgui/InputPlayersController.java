@@ -1,5 +1,6 @@
-package ru.nsu.vorobev.task2.controller.javafx;
+package ru.nsu.vorobev.task2.fxgui;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,8 +11,6 @@ import javafx.stage.Stage;
 import ru.nsu.vorobev.task2.model.Model;
 import ru.nsu.vorobev.task2.model.ModelUtils;
 import ru.nsu.vorobev.task2.model.State;
-import ru.nsu.vorobev.task2.view.javafx.InputPlayersView;
-import ru.nsu.vorobev.task2.view.javafx.Menu;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -46,13 +45,14 @@ public class InputPlayersController extends InputPlayersView {
                     model.setCurrState(State.INPUT_LEFT_PLAYER);
                     return;
                 }
+                model.setLeftPlayerName(data);
                 if(model.getIsSingle()){
                     model.setCurrState(State.INPUT_SCORE);
                     model.setRightPlayerName(ModelUtils.defaultSingleEnemyName);
                 } else{
                     model.setCurrState(State.INPUT_RIGHT_PLAYER);
                 }
-                model.setLeftPlayerName(data);
+
             }
             case INPUT_RIGHT_PLAYER -> {
                 if(isLenError){
@@ -100,6 +100,10 @@ public class InputPlayersController extends InputPlayersView {
             stage.setScene(new Scene(root,800,600));
             ((GameController)loader.getController()).init(model,stage);
             stage.show();
+            stage.setOnCloseRequest(windowEvent -> {
+                model.close();
+                Platform.exit();
+            });
             Stage stageM = (Stage) enterButton.getScene().getWindow();
             stageM.close();
         }

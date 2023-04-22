@@ -8,7 +8,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0"
             prefWidth="244.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="ru.nsu.vorobev.task2.controller.javafx.InputPlayersController">
+            fx:controller="ru.nsu.vorobev.task2.fxgui.InputPlayersController">
    <TextField fx:id="dataField" layoutX="47.0" layoutY="37.0"/>
    <Label fx:id="messageLabel" layoutX="45.0" layoutY="5.0" prefHeight="19.0" prefWidth="150.0"
           text="Enter left player name"/>

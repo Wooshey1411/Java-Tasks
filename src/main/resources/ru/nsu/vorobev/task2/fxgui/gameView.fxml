@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
+            prefWidth="800.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/19"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="ru.nsu.vorobev.task2.fxgui.GameController">
+   <Line endX="-100.0" endY="584.0" layoutX="499.0" layoutY="16.0" startX="-100.0" startY="-14.99999713897705"
+         stroke="#429c1b"/>
+   <Rectangle fx:id="leftRacket" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="218.0" layoutY="192.0"
+              stroke="BLACK" strokeType="INSIDE" width="9.0"/>
+   <Rectangle fx:id="rightRacket" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="218.0" layoutX="791.0"
+              layoutY="191.0" stroke="BLACK" strokeType="INSIDE" width="9.0"/>
+   <Rectangle fx:id="ball" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="13.0" layoutX="392.0" layoutY="294.0"
+              stroke="BLACK" strokeType="INSIDE" width="13.0"/>
+   <Label fx:id="leftPlayerScore" layoutX="345.0" layoutY="28.0" text="0" textFill="#11c114">
+      <font>
+         <Font size="21.0"/>
+      </font>
+   </Label>
+   <Label fx:id="rightPlayerScore" layoutX="431.0" layoutY="28.0" text="0" textFill="#11c114">
+      <font>
+         <Font size="21.0"/>
+      </font>
+   </Label>
+</AnchorPane>

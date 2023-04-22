@@ -37,4 +37,7 @@ public class Ticker implements Runnable {
         isFrozen = false;
         notifyAll();
     }
+    public void destroy(){
+        executorService.close();
+    }
 }

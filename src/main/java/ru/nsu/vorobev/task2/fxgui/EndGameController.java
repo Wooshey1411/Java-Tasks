@@ -1,11 +1,10 @@
-package ru.nsu.vorobev.task2.controller.javafx;
+package ru.nsu.vorobev.task2.fxgui;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import ru.nsu.vorobev.task2.model.Model;
-import ru.nsu.vorobev.task2.view.javafx.EndGameView;
 
 public class EndGameController extends EndGameView {
     public Button continueBtn;
@@ -25,7 +24,6 @@ public class EndGameController extends EndGameView {
     @FXML
     void continueButtonClick(){
         model.visibleGameWindow();
-
         stage.hide();
     }
 }
