@@ -61,7 +61,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>ru.nsu.vorobev.task2.view.swing.menu.SwingMenuWindow</mainClass>
+                            <mainClass>ru.nsu.vorobev.task2.view.javafx.HelloApplication</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

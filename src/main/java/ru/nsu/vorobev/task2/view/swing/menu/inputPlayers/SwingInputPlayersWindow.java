@@ -45,7 +45,7 @@ public class SwingInputPlayersWindow extends JFrame implements ModelListener {
     public void onModelChanged() {
 
         if (model.getCurrState() == State.EQUAL_NAMES_ERROR) {
-            JOptionPane.showMessageDialog(this, "Name of right player must not be the same name of lest player! ", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Name of right player must not be the same name of left player! ", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
 

@@ -8,6 +8,7 @@ public enum State {
     INPUT_SCORE,
     BAD_NUMBER_INPUT,
     BAD_SCORE_INPUT,
-    PLAYING
+    PLAYING,
+    GOAL
 
 }

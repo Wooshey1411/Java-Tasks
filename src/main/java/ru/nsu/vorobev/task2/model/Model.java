@@ -89,7 +89,7 @@ public class Model {
         if (ball.getXVelocity() > 0 && (ball.getXPos() + ball.getWidth() + ball.getXVelocity()) >= rightRacket.getXPos() &&
                 ball.getYPos() <= rightRacket.getYPos() + rightRacket.getHeight() && (ball.getYPos() + ball.getHeight()) > rightRacket.getYPos()) {
             ball.setXVelocity(-ball.getXVelocity());
-            ball.setXPos(rightRacket.getXPos());
+            ball.setXPos(rightRacket.getXPos() - ball.getWidth());
             isHorReflected = true;
             ball.setXVelocity(ball.getXVelocity() - (int) (Math.random() * 5));
             ball.setYVelocity(ball.getYVelocity() + (int) (Math.random() * 5));
@@ -110,6 +110,7 @@ public class Model {
             rightRacket.resetRacket();
             ball.setXVelocity(-Math.abs(ball.getXVelocity()));
             ticker.freeze();
+            currState = State.GOAL;
         }
         if (ball.getXPos() + ball.getWidth() <= 0) {
             // right win
@@ -119,9 +120,11 @@ public class Model {
             rightRacket.resetRacket();
             ball.setXVelocity(Math.abs(ball.getXVelocity()));
             ticker.freeze();
+            currState = State.GOAL;
         }
 
         notifyListener();
+        currState = State.PLAYING;
     }
 
     void moveRacketsSingle() {
@@ -359,7 +362,8 @@ public class Model {
 
         leftScore = 0;
         rightScore = 0;
-
+        stopMoveRightRacket();
+        stopMoveRightRacket();
     }
 
     public Map<String, Integer> getHistoryMapSingle() {
@@ -368,5 +372,9 @@ public class Model {
 
     public Map<String, Integer> getHistoryMapMultiplayer() {
         return ModelUtils.sortByValue(historyMapMultiplayer);
+    }
+
+    public void close(){
+        ticker.destroy();
     }
 }
