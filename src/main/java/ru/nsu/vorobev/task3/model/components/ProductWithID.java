@@ -1,11 +1,17 @@
 package ru.nsu.vorobev.task3.model.components;
 
-class ProductWithID {
-    private int ID;
+public class ProductWithID {
+
+    private static int globalID = 0;
+    private final int ID;
     ProductWithID(int ID){
         this.ID = ID;
     }
-    protected int getID(){
+    protected synchronized int getID(){
         return ID;
+    }
+
+    public static synchronized int getNewID(){
+        return globalID++;
     }
 }

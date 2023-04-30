@@ -15,10 +15,9 @@ public class ConfigParser implements AutoCloseable{
     private int sizeOfAccessoryStorage = Utils.notInitInt;
     private int sizeOfCarStorage = Utils.notInitInt;
     private int countOfWorkers = Utils.notInitInt;
-    private int countOfSuppliers = Utils.notInitInt;
+    private int countOfAccessorySuppliers = Utils.notInitInt;
     private int countOfDealers = Utils.notInitInt;
     private int timeOfWorker = Utils.notInitInt;
-    private int timeOfSupplier = Utils.notInitInt;
     private int timeOfDealer = Utils.notInitInt;
     private boolean isSaleLogging;
 
@@ -58,11 +57,10 @@ public class ConfigParser implements AutoCloseable{
                 case "sizeOfAccessoryStorage" -> sizeOfAccessoryStorage = readIntFromConfig(str,index,line);
                 case "sizeOfCarStorage" -> sizeOfCarStorage = readIntFromConfig(str,index,line);
                 case "countOfWorkers" -> countOfWorkers = readIntFromConfig(str,index,line);
-                case "countOfSuppliers" -> countOfSuppliers = readIntFromConfig(str,index,line);
+                case "countOfAccessorySuppliers" -> countOfAccessorySuppliers = readIntFromConfig(str,index,line);
                 case "countOfDealers" -> countOfDealers = readIntFromConfig(str,index,line);
                 case "timeOfWorker" -> timeOfWorker = readIntFromConfig(str,index,line);
                 case "timeOfDealer" -> timeOfDealer = readIntFromConfig(str,index,line);
-                case "timeOfSupplier" -> timeOfSupplier = readIntFromConfig(str,index,line);
                 case "isSaleLogging" -> {
                     switch (str.substring(index+1)){
                         case "True" -> isSaleLogging = true;
@@ -75,11 +73,11 @@ public class ConfigParser implements AutoCloseable{
             line++;
         }
         if(sizeOfBodyWorkStorage == Utils.notInitInt || sizeOfEngineStorage == Utils.notInitInt || sizeOfAccessoryStorage == Utils.notInitInt
-        || sizeOfCarStorage == Utils.notInitInt || countOfWorkers == Utils.notInitInt || countOfDealers == Utils.notInitInt || countOfSuppliers == Utils.notInitInt
-        || timeOfDealer == Utils.notInitInt || timeOfSupplier == Utils.notInitInt || timeOfWorker == Utils.notInitInt){
+        || sizeOfCarStorage == Utils.notInitInt || countOfWorkers == Utils.notInitInt || countOfDealers == Utils.notInitInt || countOfAccessorySuppliers == Utils.notInitInt
+        || timeOfDealer == Utils.notInitInt ||  timeOfWorker == Utils.notInitInt){
             throw new BadConfigException("Some params doesn't been initialized");
         }
-        return new Factory(sizeOfBodyWorkStorage, sizeOfEngineStorage, sizeOfAccessoryStorage, sizeOfCarStorage, countOfWorkers, countOfSuppliers, countOfDealers, isSaleLogging, timeOfWorker, timeOfSupplier, timeOfDealer);
+        return new Factory(sizeOfBodyWorkStorage, sizeOfEngineStorage, sizeOfAccessoryStorage, sizeOfCarStorage, countOfWorkers, countOfAccessorySuppliers, countOfDealers, isSaleLogging, timeOfWorker, timeOfDealer);
     }
     @Override
     public void close() throws Exception {

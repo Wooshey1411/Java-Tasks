@@ -1,8 +1,10 @@
 package ru.nsu.vorobev.task3.main;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import ru.nsu.vorobev.task3.model.Factory.BadConfigException;
 import ru.nsu.vorobev.task3.model.Factory.NoConfigFileException;
@@ -18,22 +20,24 @@ public class HelloApplication extends Application {
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();*/
+        try {
+            Model model = new Model();
+        } catch (NoConfigFileException | BadConfigException ex){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setContentText("Config file: " + ex.getMessage());
+            alert.showAndWait();
+            Platform.exit();
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+            Platform.exit();
+        }
+
 
     }
 
     public static void main(String[] args) {
-       // launch();
-        try {
-            Model model = new Model();
-        } catch (NoConfigFileException e){
-            System.out.println("no config");
-        }
-        catch (BadConfigException ex){
-            System.out.println(ex.getMessage());
-        }
-        catch (Exception ex){
-            ex.printStackTrace();
-        }
-        System.out.println("Successful");
+        launch();
     }
 }
