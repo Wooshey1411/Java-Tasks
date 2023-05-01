@@ -24,7 +24,7 @@ public class Storage<T> {
         notifyAll();
     }
 
-    public synchronized T getElement(){
+    public synchronized T get(){
         while (storage.size() == 0){
             try{
                 wait();
@@ -40,5 +40,8 @@ public class Storage<T> {
 
     public synchronized int getSize(){
         return storage.size();
+    }
+    public synchronized int getMaxCountOfElements(){
+        return maxCountOfElements;
     }
 }

@@ -7,6 +7,8 @@ import ru.nsu.vorobev.task3.model.storage.EngineStorage;
 import ru.nsu.vorobev.task3.model.suppliers.AccessorySupplier;
 import ru.nsu.vorobev.task3.model.suppliers.BodyworkSupplier;
 import ru.nsu.vorobev.task3.model.suppliers.EngineSupplier;
+import ru.nsu.vorobev.task3.model.worker.Tasks;
+import ru.nsu.vorobev.task3.model.worker.Worker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,10 +34,17 @@ public class Model {
     private ExecutorService engineES;
     private ExecutorService bodyworkES;
     private ExecutorService accessoryES;
+    private ExecutorService workersES;
+    private ExecutorService controllerES;
+    private ExecutorService dealerES;
     private final List<Future<?>> engineFuture = new ArrayList<>();
     private final List<Future<?>> bodyworkFuture = new ArrayList<>();
     private final List<Future<?>> accessoryFuture = new ArrayList<>();
+    private final List<Future<?>> workerFuture = new ArrayList<>();
+    private final List<Future<?>> dealerFuture = new ArrayList<>();
+    private Future<?> controllerFuture;
 
+    private Tasks tasks;
     boolean isWorking = false;
     public Model(int sizeOfBodyWorkStorage, int sizeOfEngineStorage, int sizeOfAccessoryStorage,
                  int sizeOfCarStorage, int countOfWorkers, int countOfAccessorySuppliers, int countOfDealers, boolean isSaleLogging,
@@ -54,6 +63,7 @@ public class Model {
         bodyworkStorage = new BodyworkStorage(sizeOfBodyWorkStorage);
         accessoryStorage = new AccessoryStorage(sizeOfAccessoryStorage);
         carStorage = new CarStorage(sizeOfCarStorage);
+        tasks = new Tasks();
         startWork();
     }
 
@@ -65,12 +75,21 @@ public class Model {
         engineES = Executors.newFixedThreadPool(Utils.maxCountOfSuppliers);
         bodyworkES = Executors.newFixedThreadPool(Utils.maxCountOfSuppliers);
         accessoryES = Executors.newFixedThreadPool(Utils.maxCountOfSuppliers);
+        workersES = Executors.newFixedThreadPool(Utils.maxCountOfWorkers);
+        controllerES = Executors.newFixedThreadPool(1);
+        dealerES = Executors.newFixedThreadPool(Utils.maxCountOfDealers);
         engineFuture.add(engineES.submit(new EngineSupplier(this)));
         bodyworkFuture.add(bodyworkES.submit(new BodyworkSupplier(this)));
         for (int i = 0; i < countOfAccessorySuppliers; i++){
             accessoryFuture.add(accessoryES.submit(new AccessorySupplier(this)));
         }
-
+        for (int i = 0; i < countOfWorkers; i++){
+            workerFuture.add(workersES.submit(new Worker(tasks,this)));
+        }
+        controllerFuture = controllerES.submit(new Controller(tasks,this));
+        for (int i = 0; i < countOfDealers; i++){
+            dealerFuture.add(dealerES.submit(new Dealer(i,this)));
+        }
     }
     public int getTimeOfSupplier(){
         return countOfWorkers;
@@ -114,19 +133,15 @@ public class Model {
         return carStorage;
     }
 
-    public int getSizeOfAccessoryStorage() {
-        return sizeOfAccessoryStorage;
+    public int getTimeOfWorker() {
+        return timeOfWorker;
     }
 
-    public int getSizeOfBodyWorkStorage() {
-        return sizeOfBodyWorkStorage;
+    public int getTimeOfDealer() {
+        return timeOfDealer;
     }
 
-    public int getSizeOfEngineStorage() {
-        return sizeOfEngineStorage;
-    }
-
-    void close(){
+    public void close(){
         for (Future<?> future : engineFuture) {
             future.cancel(true);
         }
@@ -136,8 +151,18 @@ public class Model {
         for (Future<?> future : accessoryFuture) {
             future.cancel(true);
         }
+        for (Future<?> future : workerFuture) {
+            future.cancel(true);
+        }
+        for (Future<?> future : dealerFuture) {
+            future.cancel(true);
+        }
+        controllerFuture.cancel(true);
         engineES.close();
         bodyworkES.close();
         accessoryES.close();
+        workersES.close();
+        controllerES.close();
+        dealerES.close();
     }
 }

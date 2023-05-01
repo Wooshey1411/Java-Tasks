@@ -7,7 +7,7 @@ public class ProductWithID {
     ProductWithID(int ID){
         this.ID = ID;
     }
-    protected synchronized int getID(){
+    public synchronized int getID(){
         return ID;
     }
 

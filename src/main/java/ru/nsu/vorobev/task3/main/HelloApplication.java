@@ -14,12 +14,12 @@ import java.io.IOException;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        /*FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
+       /* FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();*/
-        Model model;
+        Model model = null;
         try(ConfigParser configParser = new ConfigParser()) {
             model = configParser.readConfig();
         } catch (NoConfigFileException | BadConfigException ex){
@@ -34,7 +34,13 @@ public class HelloApplication extends Application {
             Platform.exit();
         }
 
-
+        try {
+            Thread.sleep(6000);
+        } catch (InterruptedException ignored){}
+        if(model != null) {
+            model.close();
+        }
+        Platform.exit();
     }
 
     public static void main(String[] args) {
