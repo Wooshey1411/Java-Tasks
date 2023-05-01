@@ -1,4 +1,4 @@
-package ru.nsu.vorobev.task3.model.Factory;
+package ru.nsu.vorobev.task3.model.configParser;
 
 public class BadConfigException extends RuntimeException{
     public BadConfigException(String msg, Throwable cause){

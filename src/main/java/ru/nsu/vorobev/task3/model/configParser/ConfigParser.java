@@ -1,5 +1,6 @@
-package ru.nsu.vorobev.task3.model.Factory;
+package ru.nsu.vorobev.task3.model.configParser;
 
+import ru.nsu.vorobev.task3.model.Model;
 import ru.nsu.vorobev.task3.model.Utils;
 
 import java.io.BufferedReader;
@@ -42,7 +43,7 @@ public class ConfigParser implements AutoCloseable{
         return count;
     }
 
-    public Factory readConfig() throws IOException {
+    public Model readConfig() throws IOException {
         String str;
         int line = 1;
         while((str = reader.readLine()) != null){
@@ -77,7 +78,7 @@ public class ConfigParser implements AutoCloseable{
         || timeOfDealer == Utils.notInitInt ||  timeOfWorker == Utils.notInitInt){
             throw new BadConfigException("Some params doesn't been initialized");
         }
-        return new Factory(sizeOfBodyWorkStorage, sizeOfEngineStorage, sizeOfAccessoryStorage, sizeOfCarStorage, countOfWorkers, countOfAccessorySuppliers, countOfDealers, isSaleLogging, timeOfWorker, timeOfDealer);
+        return new Model(sizeOfBodyWorkStorage, sizeOfEngineStorage, sizeOfAccessoryStorage, sizeOfCarStorage, countOfWorkers, countOfAccessorySuppliers, countOfDealers, isSaleLogging, timeOfWorker, timeOfDealer);
     }
     @Override
     public void close() throws Exception {

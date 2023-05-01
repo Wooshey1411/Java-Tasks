@@ -2,13 +2,12 @@ package ru.nsu.vorobev.task3.main;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-import ru.nsu.vorobev.task3.model.Factory.BadConfigException;
-import ru.nsu.vorobev.task3.model.Factory.NoConfigFileException;
 import ru.nsu.vorobev.task3.model.Model;
+import ru.nsu.vorobev.task3.model.configParser.BadConfigException;
+import ru.nsu.vorobev.task3.model.configParser.ConfigParser;
+import ru.nsu.vorobev.task3.model.configParser.NoConfigFileException;
 
 import java.io.IOException;
 
@@ -20,8 +19,9 @@ public class HelloApplication extends Application {
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();*/
-        try {
-            Model model = new Model();
+        Model model;
+        try(ConfigParser configParser = new ConfigParser()) {
+            model = configParser.readConfig();
         } catch (NoConfigFileException | BadConfigException ex){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error Dialog");
