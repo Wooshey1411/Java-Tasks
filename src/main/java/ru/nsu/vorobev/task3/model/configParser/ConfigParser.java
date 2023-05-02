@@ -1,7 +1,6 @@
 package ru.nsu.vorobev.task3.model.configParser;
 
 import ru.nsu.vorobev.task3.model.Model;
-import ru.nsu.vorobev.task3.model.Utils;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -9,22 +8,24 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class ConfigParser implements AutoCloseable{
+    private static final String pathToConfig = "res/factoryConfig.txt";
+    private static final int notInitInt = -1;
 
     private final BufferedReader reader;
-    private int sizeOfBodyWorkStorage = Utils.notInitInt;
-    private int sizeOfEngineStorage = Utils.notInitInt;
-    private int sizeOfAccessoryStorage = Utils.notInitInt;
-    private int sizeOfCarStorage = Utils.notInitInt;
-    private int countOfWorkers = Utils.notInitInt;
-    private int countOfAccessorySuppliers = Utils.notInitInt;
-    private int countOfDealers = Utils.notInitInt;
-    private int timeOfWorker = Utils.notInitInt;
-    private int timeOfDealer = Utils.notInitInt;
+    private int sizeOfBodyWorkStorage = notInitInt;
+    private int sizeOfEngineStorage = notInitInt;
+    private int sizeOfAccessoryStorage = notInitInt;
+    private int sizeOfCarStorage = notInitInt;
+    private int countOfWorkers = notInitInt;
+    private int countOfAccessorySuppliers = notInitInt;
+    private int countOfDealers = notInitInt;
+    private int timeOfWorker = notInitInt;
+    private int timeOfDealer = notInitInt;
     private boolean isSaleLogging;
 
     public ConfigParser() {
         try {
-            reader = new BufferedReader(new FileReader(Utils.pathToConfig));
+            reader = new BufferedReader(new FileReader(pathToConfig));
         } catch (FileNotFoundException ex){
             throw new NoConfigFileException("No config file",ex);
         }
@@ -73,9 +74,9 @@ public class ConfigParser implements AutoCloseable{
             }
             line++;
         }
-        if(sizeOfBodyWorkStorage == Utils.notInitInt || sizeOfEngineStorage == Utils.notInitInt || sizeOfAccessoryStorage == Utils.notInitInt
-        || sizeOfCarStorage == Utils.notInitInt || countOfWorkers == Utils.notInitInt || countOfDealers == Utils.notInitInt || countOfAccessorySuppliers == Utils.notInitInt
-        || timeOfDealer == Utils.notInitInt ||  timeOfWorker == Utils.notInitInt){
+        if(sizeOfBodyWorkStorage == notInitInt || sizeOfEngineStorage == notInitInt || sizeOfAccessoryStorage == notInitInt
+        || sizeOfCarStorage == notInitInt || countOfWorkers == notInitInt || countOfDealers == notInitInt || countOfAccessorySuppliers == notInitInt
+        || timeOfDealer == notInitInt ||  timeOfWorker == notInitInt){
             throw new BadConfigException("Some params doesn't been initialized");
         }
         return new Model(sizeOfBodyWorkStorage, sizeOfEngineStorage, sizeOfAccessoryStorage, sizeOfCarStorage, countOfWorkers, countOfAccessorySuppliers, countOfDealers, isSaleLogging, timeOfWorker, timeOfDealer);

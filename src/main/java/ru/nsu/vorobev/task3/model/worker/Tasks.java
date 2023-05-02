@@ -1,15 +1,14 @@
 package ru.nsu.vorobev.task3.model.worker;
 
-import ru.nsu.vorobev.task3.model.Utils;
-
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class Tasks {
+    private final static int maxCountOfTasks = 5000;
     private final Queue<Task> tasks;
 
     public Tasks() {
-        this.tasks = new LinkedBlockingQueue<>(Utils.maxCountOfTasks);
+        this.tasks = new LinkedBlockingQueue<>(maxCountOfTasks);
     }
     public synchronized void offerTask(Task task){
         tasks.offer(task);

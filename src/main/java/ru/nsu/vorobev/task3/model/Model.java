@@ -17,12 +17,15 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 public class Model {
+    private static final int maxCountOfSuppliers = 20;
+    private static final int maxCountOfWorkers = 20;
+    private static final int maxCountOfDealers = 20;
     private final int sizeOfBodyWorkStorage;
     private final int sizeOfEngineStorage;
     private final int sizeOfAccessoryStorage;
     private final int sizeOfCarStorage;
     private final int countOfWorkers;
-    private int countOfAccessorySuppliers;
+    private final int countOfAccessorySuppliers;
     private final int countOfDealers;
     private final boolean isSaleLogging;
     private final int timeOfWorker;
@@ -43,8 +46,7 @@ public class Model {
     private final List<Future<?>> workerFuture = new ArrayList<>();
     private final List<Future<?>> dealerFuture = new ArrayList<>();
     private Future<?> controllerFuture;
-
-    private Tasks tasks;
+    private final Tasks tasks;
     boolean isWorking = false;
     public Model(int sizeOfBodyWorkStorage, int sizeOfEngineStorage, int sizeOfAccessoryStorage,
                  int sizeOfCarStorage, int countOfWorkers, int countOfAccessorySuppliers, int countOfDealers, boolean isSaleLogging,
@@ -72,12 +74,13 @@ public class Model {
         if(isWorking){
             return;
         }
-        engineES = Executors.newFixedThreadPool(Utils.maxCountOfSuppliers);
-        bodyworkES = Executors.newFixedThreadPool(Utils.maxCountOfSuppliers);
-        accessoryES = Executors.newFixedThreadPool(Utils.maxCountOfSuppliers);
-        workersES = Executors.newFixedThreadPool(Utils.maxCountOfWorkers);
-        controllerES = Executors.newFixedThreadPool(1);
-        dealerES = Executors.newFixedThreadPool(Utils.maxCountOfDealers);
+
+        engineES = Executors.newFixedThreadPool(maxCountOfSuppliers);
+        bodyworkES = Executors.newFixedThreadPool(maxCountOfSuppliers);
+        accessoryES = Executors.newFixedThreadPool(maxCountOfSuppliers);
+        workersES = Executors.newFixedThreadPool(maxCountOfWorkers);
+        controllerES = Executors.newSingleThreadExecutor();
+        dealerES = Executors.newFixedThreadPool(maxCountOfDealers);
         engineFuture.add(engineES.submit(new EngineSupplier(this)));
         bodyworkFuture.add(bodyworkES.submit(new BodyworkSupplier(this)));
         for (int i = 0; i < countOfAccessorySuppliers; i++){
