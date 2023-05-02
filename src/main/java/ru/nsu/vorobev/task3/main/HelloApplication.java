@@ -35,7 +35,7 @@ public class HelloApplication extends Application {
         }
 
         try {
-            Thread.sleep(6000);
+            Thread.sleep(10000);
         } catch (InterruptedException ignored){}
         if(model != null) {
             model.close();

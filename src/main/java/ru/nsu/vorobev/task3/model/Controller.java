@@ -19,7 +19,9 @@ public class Controller implements Runnable{
                    tasks.offerTask(new Task());
                } else {
                    synchronized (model.getCarStorage()){
-                       model.getCarStorage().wait();
+                       while(tasks.getCountOfTasks() >= model.getCarStorage().getMaxCountOfElements() - model.getCarStorage().getSize()) {
+                           model.getCarStorage().wait();
+                       }
                    }
                }
            } catch (Exception e){
