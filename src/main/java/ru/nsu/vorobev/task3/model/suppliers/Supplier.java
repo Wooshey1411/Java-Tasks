@@ -3,9 +3,6 @@ package ru.nsu.vorobev.task3.model.suppliers;
 import ru.nsu.vorobev.task3.model.components.ProductWithID;
 import ru.nsu.vorobev.task3.model.storage.Storage;
 
-import java.util.Queue;
-import java.util.concurrent.ArrayBlockingQueue;
-
 public class Supplier<T extends ProductWithID> implements Runnable{
     private final Storage<T> storage;
     private final int timeToWork;
