@@ -66,6 +66,8 @@ public class Model {
         accessoryStorage = new AccessoryStorage(sizeOfAccessoryStorage);
         carStorage = new CarStorage(sizeOfCarStorage);
         tasks = new Tasks();
+        Log.init();
+        Log.enableLogger();
         startWork();
     }
 
@@ -144,6 +146,9 @@ public class Model {
         return timeOfDealer;
     }
 
+    public boolean getIsSaleLogging(){
+        return isSaleLogging;
+    }
     public void close(){
         for (Future<?> future : engineFuture) {
             future.cancel(true);
