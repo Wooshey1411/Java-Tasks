@@ -20,20 +20,23 @@ public class Model {
     private static final int maxCountOfSuppliers = 20;
     private static final int maxCountOfWorkers = 20;
     private static final int maxCountOfDealers = 20;
-    private final int sizeOfBodyWorkStorage;
-    private final int sizeOfEngineStorage;
-    private final int sizeOfAccessoryStorage;
-    private final int sizeOfCarStorage;
-    private final int countOfWorkers;
-    private final int countOfAccessorySuppliers;
-    private final int countOfDealers;
-    private final boolean isSaleLogging;
-    private final int timeOfWorker;
-    private final int timeOfDealer;
-    private final EngineStorage engineStorage;
-    private final BodyworkStorage bodyworkStorage;
-    private final AccessoryStorage accessoryStorage;
-    private final CarStorage carStorage;
+    private int sizeOfBodyworkStorage;
+    private int sizeOfEngineStorage;
+    private int sizeOfAccessoryStorage;
+    private int sizeOfCarStorage;
+    private int countOfWorkers;
+    private int countOfAccessorySuppliers;
+    private int countOfDealers;
+    private boolean isSaleLogging;
+    private int timeOfWorker;
+    private int timeOfDealer;
+    private int timeOfAccessorySupplier;
+    private int timeOfBodyworkSupplier;
+    private int timeOfEngineSupplier;
+    private  EngineStorage engineStorage;
+    private  BodyworkStorage bodyworkStorage;
+    private  AccessoryStorage accessoryStorage;
+    private  CarStorage carStorage;
     private ExecutorService engineES;
     private ExecutorService bodyworkES;
     private ExecutorService accessoryES;
@@ -47,35 +50,30 @@ public class Model {
     private final List<Future<?>> dealerFuture = new ArrayList<>();
     private Future<?> controllerFuture;
     private final Tasks tasks;
+
+    private ModelListener listener;
     boolean isWorking = false;
-    public Model(int sizeOfBodyWorkStorage, int sizeOfEngineStorage, int sizeOfAccessoryStorage,
-                 int sizeOfCarStorage, int countOfWorkers, int countOfAccessorySuppliers, int countOfDealers, boolean isSaleLogging,
-                 int timeOfWorker, int timeOfDealer) {
-        this.sizeOfBodyWorkStorage = sizeOfBodyWorkStorage;
-        this.sizeOfEngineStorage = sizeOfEngineStorage;
-        this.sizeOfAccessoryStorage = sizeOfAccessoryStorage;
-        this.sizeOfCarStorage = sizeOfCarStorage;
-        this.countOfWorkers = countOfWorkers;
-        this.countOfAccessorySuppliers = countOfAccessorySuppliers;
-        this.countOfDealers = countOfDealers;
-        this.isSaleLogging = isSaleLogging;
-        this.timeOfWorker = timeOfWorker;
-        this.timeOfDealer = timeOfDealer;
-        engineStorage = new EngineStorage(sizeOfEngineStorage);
-        bodyworkStorage = new BodyworkStorage(sizeOfBodyWorkStorage);
-        accessoryStorage = new AccessoryStorage(sizeOfAccessoryStorage);
-        carStorage = new CarStorage(sizeOfCarStorage);
+    public Model() {
         tasks = new Tasks();
-        Log.init();
-        Log.enableLogger();
-        startWork();
     }
 
-
+    public void init(){
+        timeOfAccessorySupplier = countOfAccessorySuppliers;
+        timeOfBodyworkSupplier = countOfAccessorySuppliers;
+        timeOfEngineSupplier = countOfAccessorySuppliers;
+        if(isSaleLogging){
+            Log.init();
+            Log.enableLogger();
+        }
+    }
     public void startWork(){
         if(isWorking){
             return;
         }
+        engineStorage = new EngineStorage(sizeOfEngineStorage,listener);
+        bodyworkStorage = new BodyworkStorage(sizeOfBodyworkStorage,listener);
+        accessoryStorage = new AccessoryStorage(sizeOfAccessoryStorage,listener);
+        carStorage = new CarStorage(sizeOfCarStorage,listener);
 
         engineES = Executors.newFixedThreadPool(maxCountOfSuppliers);
         bodyworkES = Executors.newFixedThreadPool(maxCountOfSuppliers);
@@ -96,32 +94,30 @@ public class Model {
             dealerFuture.add(dealerES.submit(new Dealer(i,this)));
         }
     }
-    public int getTimeOfSupplier(){
-        return countOfWorkers;
-       // return 500;
+    public int getTimeOfAccessorySupplier(){
+        return timeOfAccessorySupplier;
     }
 
-     /*void setCountOfAccessorySuppliers(int countOfAccessorySuppliers){
-        if(countOfAccessorySuppliers > Utils.maxCountOfSuppliers || countOfAccessorySuppliers == this.countOfAccessorySuppliers){
-            return;
-        }
-        if(countOfAccessorySuppliers < this.countOfAccessorySuppliers){
-            for (int i = this.countOfAccessorySuppliers-1; i >= countOfAccessorySuppliers; i--){
-                try {
-                    synchronized (Accessory.class) {
-                        accessoryFuture.get(i).wait();
-                    }
-                } catch (Exception e){e.printStackTrace();}
-                accessoryFuture.get(i).cancel(true);
-                accessoryFuture.remove(i);
-            }
-            this.countOfAccessorySuppliers = countOfAccessorySuppliers;
-            return;
-        }
-        for (int i = 0; i < countOfAccessorySuppliers - this.countOfAccessorySuppliers; i++){
-           accessoryFuture.add(accessoryES.submit(new AccessorySupplier(this)));
-        }
-    }*/
+    public int getTimeOfBodyworkSupplier(){
+        return timeOfBodyworkSupplier;
+    }
+
+    public int getTimeOfEngineSupplier() {
+        return timeOfEngineSupplier;
+    }
+
+    public void setTimeOfAccessorySupplier(int timeOfAccessorySupplier) {
+        this.timeOfAccessorySupplier = timeOfAccessorySupplier;
+    }
+
+    public void setTimeOfBodyworkSupplier(int timeOfBodyworkSupplier) {
+        this.timeOfBodyworkSupplier = timeOfBodyworkSupplier;
+    }
+
+    public void setTimeOfEngineSupplier(int timeOfEngineSupplier) {
+        this.timeOfEngineSupplier = timeOfEngineSupplier;
+    }
+
     public AccessoryStorage getAccessoryStorage() {
         return accessoryStorage;
     }
@@ -149,6 +145,63 @@ public class Model {
     public boolean getIsSaleLogging(){
         return isSaleLogging;
     }
+
+    public int getSizeOfEngineStorage() {
+        return sizeOfEngineStorage;
+    }
+
+    public int getSizeOfBodyworkStorage() {
+        return sizeOfBodyworkStorage;
+    }
+
+    public int getSizeOfAccessoryStorage() {
+        return sizeOfAccessoryStorage;
+    }
+
+    public int getSizeOfCarStorage() {
+        return sizeOfCarStorage;
+    }
+
+    public void setSizeOfEngineStorage(int sizeOfEngineStorage) {
+        this.sizeOfEngineStorage = sizeOfEngineStorage;
+    }
+
+    public void setSizeOfCarStorage(int sizeOfCarStorage) {
+        this.sizeOfCarStorage = sizeOfCarStorage;
+    }
+
+    public void setSizeOfAccessoryStorage(int sizeOfAccessoryStorage) {
+        this.sizeOfAccessoryStorage = sizeOfAccessoryStorage;
+    }
+
+    public void setSizeOfBodyworkStorage(int sizeOfBodyworkStorage) {
+        this.sizeOfBodyworkStorage = sizeOfBodyworkStorage;
+    }
+
+    public void setSaleLogging(boolean saleLogging) {
+        isSaleLogging = saleLogging;
+    }
+
+    public void setTimeOfWorker(int timeOfWorker) {
+        this.timeOfWorker = timeOfWorker;
+    }
+
+    public void setCountOfWorkers(int countOfWorkers) {
+        this.countOfWorkers = countOfWorkers;
+    }
+
+    public void setTimeOfDealer(int timeOfDealer) {
+        this.timeOfDealer = timeOfDealer;
+    }
+
+    public void setCountOfDealers(int countOfDealers) {
+        this.countOfDealers = countOfDealers;
+    }
+
+    public void setCountOfAccessorySuppliers(int countOfAccessorySuppliers) {
+        this.countOfAccessorySuppliers = countOfAccessorySuppliers;
+    }
+
     public void close(){
         for (Future<?> future : engineFuture) {
             future.cancel(true);
@@ -172,5 +225,25 @@ public class Model {
         workersES.close();
         controllerES.close();
         dealerES.close();
+    }
+
+    public void setModelListener(ModelListener modelListener){
+        this.listener = modelListener;
+    }
+    public void onModelChanged(ListenedHandle handle){
+        listener.onModelChanged(handle);
+    }
+
+    public synchronized int getCountOfEngine(){
+        return engineStorage.getSize();
+    }
+    public synchronized int getCountOfBodywork(){
+        return bodyworkStorage.getSize();
+    }
+    public synchronized int getCountOfAccessory(){
+        return accessoryStorage.getSize();
+    }
+    public synchronized int getCountOfCar(){
+        return carStorage.getSize();
     }
 }

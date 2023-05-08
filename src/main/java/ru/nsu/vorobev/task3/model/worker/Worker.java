@@ -1,5 +1,6 @@
 package ru.nsu.vorobev.task3.model.worker;
 
+import ru.nsu.vorobev.task3.model.ListenedHandle;
 import ru.nsu.vorobev.task3.model.Model;
 import ru.nsu.vorobev.task3.model.components.*;
 

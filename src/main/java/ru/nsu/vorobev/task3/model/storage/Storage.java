@@ -1,15 +1,22 @@
 package ru.nsu.vorobev.task3.model.storage;
 
+import ru.nsu.vorobev.task3.model.ListenedHandle;
+import ru.nsu.vorobev.task3.model.ModelListener;
+
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
 public class Storage<T> {
     private final Queue<T> storage;
     private final int maxCountOfElements;
+    private final ModelListener listener;
+    private final ListenedHandle handle;
 
-    public Storage(int maxCountOfElements) {
+    public Storage(int maxCountOfElements, ModelListener listener, ListenedHandle handle) {
         this.storage = new ArrayBlockingQueue<>(maxCountOfElements);
         this.maxCountOfElements = maxCountOfElements;
+        this.listener = listener;
+        this.handle = handle;
     }
     public synchronized void put(T element){
         while(storage.size() >= maxCountOfElements){
@@ -20,6 +27,8 @@ public class Storage<T> {
                 return;
             }
         }
+        listener.onModelChanged(handle);
+
         storage.offer(element);
         notifyAll();
     }

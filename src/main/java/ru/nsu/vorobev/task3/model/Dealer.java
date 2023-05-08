@@ -3,7 +3,6 @@ package ru.nsu.vorobev.task3.model;
 import ru.nsu.vorobev.task3.model.components.Car;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class Dealer implements Runnable{
     private final int dealerID;
@@ -20,6 +19,7 @@ public class Dealer implements Runnable{
             try{
                 Thread.sleep(model.getTimeOfDealer());
                 Car car = model.getCarStorage().get();
+                model.onModelChanged(ListenedHandle.CAR_SOLD);
                 if(model.getIsSaleLogging()) {
                     String time = LocalDateTime.now().toString();
                     // time format : 2023-05-03T22:58:16.119375100 - found last T

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.nsu.vorobev.task3.gui.FactoryController">
+   <children>
+      <Slider fx:id="engineSpeedSlider" blockIncrement="1.0" layoutX="15.0" layoutY="9.0" majorTickUnit="100.0" max="1000.0" min="100.0" minorTickCount="10" onKeyReleased="#OnSliderRealised" onMousePressed="#OnSliderMove" onMouseReleased="#OnSliderRealised" prefHeight="40.0" prefWidth="800.0" showTickLabels="true" showTickMarks="true" value="100.0" />
+      <Label fx:id="engineSpeedLabel" layoutX="15.0" layoutY="49.0" prefHeight="18.0" prefWidth="218.0" text="Current engine supplier speed:" />
+      <Label alignment="CENTER" layoutX="835.0" layoutY="8.0" prefHeight="18.0" prefWidth="50.0" text="Storage" />
+      <Label fx:id="engineStorageLabel" alignment="CENTER" layoutX="835.0" layoutY="26.0" prefHeight="18.0" prefWidth="50.0" text="X/Y" />
+      <Label fx:id="engineSuppliedLabel" layoutX="711.0" layoutY="49.0" prefHeight="18.0" prefWidth="185.0" text="Supplied:" />
+      <Slider fx:id="bodyworkSpeedSlider" blockIncrement="1.0" layoutX="15.0" layoutY="81.0" majorTickUnit="100.0" max="1000.0" min="100.0" minorTickCount="10" onKeyReleased="#OnSliderRealised" onMousePressed="#OnSliderMove" onMouseReleased="#OnSliderRealised" prefHeight="40.0" prefWidth="800.0" showTickLabels="true" showTickMarks="true" value="100.0" />
+      <Label fx:id="bodyworkSpeedLabel" layoutX="15.0" layoutY="121.0" prefHeight="18.0" prefWidth="218.0" text="Current bodywork supplier speed:" />
+      <Label alignment="CENTER" layoutX="835.0" layoutY="80.0" prefHeight="18.0" prefWidth="50.0" text="Storage" />
+      <Label fx:id="bodyworkStorageLabel" alignment="CENTER" layoutX="835.0" layoutY="98.0" prefHeight="18.0" prefWidth="50.0" text="X/Y" />
+      <Label fx:id="bodyworkSuppliedLabel" layoutX="711.0" layoutY="121.0" prefHeight="18.0" prefWidth="185.0" text="Supplied:" />
+      <Slider fx:id="accessorySpeedSlider" blockIncrement="1.0" layoutX="15.0" layoutY="160.0" majorTickUnit="100.0" max="1000.0" min="100.0" minorTickCount="10" onKeyReleased="#OnSliderRealised" onMousePressed="#OnSliderMove" onMouseReleased="#OnSliderRealised" prefHeight="40.0" prefWidth="800.0" showTickLabels="true" showTickMarks="true" value="100.0" />
+      <Label fx:id="accessorySpeedLabel" layoutX="15.0" layoutY="200.0" prefHeight="18.0" prefWidth="218.0" text="Current accessory supplier speed:" />
+      <Label alignment="CENTER" layoutX="835.0" layoutY="159.0" prefHeight="18.0" prefWidth="50.0" text="Storage" />
+      <Label fx:id="accessoryStorageLabel" alignment="CENTER" layoutX="835.0" layoutY="177.0" prefHeight="18.0" prefWidth="50.0" text="X/Y" />
+      <Label fx:id="accessorySuppliedLabel" layoutX="711.0" layoutY="200.0" prefHeight="18.0" prefWidth="185.0" text="Supplied:" />
+      <Slider fx:id="workerSpeedSlider" blockIncrement="1.0" layoutX="15.0" layoutY="229.0" majorTickUnit="100.0" max="1000.0" min="100.0" minorTickCount="10" onKeyReleased="#OnSliderRealised" onMousePressed="#OnSliderMove" onMouseReleased="#OnSliderRealised" prefHeight="40.0" prefWidth="800.0" showTickLabels="true" showTickMarks="true" value="100.0" />
+      <Label fx:id="workerSpeedLabel" layoutX="15.0" layoutY="269.0" prefHeight="18.0" prefWidth="218.0" text="Current worker speed:" />
+      <Label alignment="CENTER" layoutX="835.0" layoutY="228.0" prefHeight="18.0" prefWidth="50.0" text="Storage" />
+      <Label fx:id="carStorageLabel" alignment="CENTER" layoutX="835.0" layoutY="246.0" prefHeight="18.0" prefWidth="50.0" text="X/Y" />
+      <Label fx:id="workerAssembledLabel" layoutX="711.0" layoutY="269.0" prefHeight="18.0" prefWidth="185.0" text="Assembled:" />
+      <Slider fx:id="dealerSpeedSlider" blockIncrement="1.0" layoutX="15.0" layoutY="295.0" majorTickUnit="100.0" max="1000.0" min="100.0" minorTickCount="10" onKeyReleased="#OnSliderRealised" onMousePressed="#OnSliderMove" onMouseReleased="#OnSliderRealised" prefHeight="40.0" prefWidth="800.0" showTickLabels="true" showTickMarks="true" value="100.0" />
+      <Label fx:id="dealerSpeedLabel" layoutX="15.0" layoutY="335.0" prefHeight="18.0" prefWidth="218.0" text="Current dealer speed:" />
+      <Label fx:id="dealerSoldLabel" layoutX="711.0" layoutY="335.0" prefHeight="18.0" prefWidth="185.0" text="Sold:" />
+   </children>
+</AnchorPane>

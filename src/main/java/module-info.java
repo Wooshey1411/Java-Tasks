@@ -4,6 +4,6 @@ module ru.nsu.vorobev.task.main {
     requires org.apache.logging.log4j;
 
 
-    opens ru.nsu.vorobev.task3.main to javafx.fxml;
-    exports ru.nsu.vorobev.task3.main;
+    opens ru.nsu.vorobev.task3.gui to javafx.fxml;
+    exports ru.nsu.vorobev.task3.gui;
 }
