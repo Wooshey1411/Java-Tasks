@@ -5,6 +5,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import ru.nsu.vorobev.task3.model.Model;
 import ru.nsu.vorobev.task3.model.configParser.BadConfigException;
@@ -14,6 +15,7 @@ import ru.nsu.vorobev.task3.model.configParser.NoConfigFileException;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 public class Main extends Application {
     @Override
@@ -22,6 +24,8 @@ public class Main extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 900, 400);
         stage.setResizable(false);
         stage.setTitle("Завод лады");
+        Image image = new Image(Objects.requireNonNull(Main.class.getResourceAsStream("lada.jpeg")));
+        stage.getIcons().add(image);
         stage.setScene(scene);
         stage.show();
 
@@ -46,7 +50,6 @@ public class Main extends Application {
         }
         model.init();
         ((FactoryController) fxmlLoader.getController()).setModel(model);
-        model.startWork();
 
         stage.setOnCloseRequest(windowEvent -> {
             model.close();

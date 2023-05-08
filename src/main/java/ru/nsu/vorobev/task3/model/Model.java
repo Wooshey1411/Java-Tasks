@@ -93,6 +93,7 @@ public class Model {
         for (int i = 0; i < countOfDealers; i++){
             dealerFuture.add(dealerES.submit(new Dealer(i,this)));
         }
+        isWorking = true;
     }
     public int getTimeOfAccessorySupplier(){
         return timeOfAccessorySupplier;
@@ -203,6 +204,9 @@ public class Model {
     }
 
     public void close(){
+        if(!isWorking){
+            return;
+        }
         for (Future<?> future : engineFuture) {
             future.cancel(true);
         }
