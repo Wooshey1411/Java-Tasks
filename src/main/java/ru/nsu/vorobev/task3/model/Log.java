@@ -15,8 +15,9 @@ public class Log {
             return;
         }
         byte[] buffer = new byte[1024];
-        int readed = 0;
+        int readed;
         try(InputStream config = Log.class.getResourceAsStream(res)){
+            assert config != null;
             readed = config.read(buffer);
         } catch (IOException ex){
             throw new RuntimeException(ex);
@@ -27,7 +28,7 @@ public class Log {
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-        try(OutputStream out = new FileOutputStream(file);){
+        try(OutputStream out = new FileOutputStream(file)){
            out.write(buffer,0,readed);
         } catch (IOException ex){
             ex.printStackTrace();

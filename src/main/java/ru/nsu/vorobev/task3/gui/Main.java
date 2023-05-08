@@ -21,7 +21,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("factoryView.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 900, 400);
+        Scene scene = new Scene(fxmlLoader.load(), 900, 420);
         stage.setResizable(false);
         stage.setTitle("Завод лады");
         Image image = new Image(Objects.requireNonNull(Main.class.getResourceAsStream("lada.jpeg")));

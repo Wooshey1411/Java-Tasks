@@ -28,9 +28,11 @@ public class ModelBuilder {
     }
 
     public void setCounts(Model model, List<String> values) {
-        boolean cntOfSupplInit = false;
+        boolean cntOfAccessoryInit = false;
         boolean cntOfWorkerInit = false;
         boolean cntOfDealerInit = false;
+       // boolean cntOfEngineInit = false;
+       // boolean cntOfBodyworkInit = false;
         int currLine = 1;
         for (String line : values) {
             int index = getIndex(line);
@@ -45,12 +47,14 @@ public class ModelBuilder {
                 }
                 case "countOfAccessorySuppliers" -> {
                     model.setCountOfAccessorySuppliers(readIntFromConfig(line, index, currLine));
-                    cntOfSupplInit = true;
+                    cntOfAccessoryInit = true;
                 }
+                case "countOfEngineSuppliers" -> model.setCountOfEngineSuppliers(readIntFromConfig(line, index, currLine));
+                case "countOfBodyworkSuppliers" -> model.setCountOfBodyworkSuppliers(readIntFromConfig(line, index, currLine));
             }
             currLine++;
         }
-        if (!cntOfDealerInit || !cntOfWorkerInit || !cntOfSupplInit) {
+        if (!cntOfDealerInit || !cntOfWorkerInit || !cntOfAccessoryInit) {
             throw new BadConfigException("Bad lines in config");
         }
     }

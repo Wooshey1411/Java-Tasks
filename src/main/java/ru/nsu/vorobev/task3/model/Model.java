@@ -30,6 +30,8 @@ public class Model {
     private boolean isSaleLogging;
     private int timeOfWorker;
     private int timeOfDealer;
+    private int countOfEngineSuppliers = 1;
+    private int countOfBodyworkSuppliers = 1;
     private int timeOfAccessorySupplier;
     private int timeOfBodyworkSupplier;
     private int timeOfEngineSupplier;
@@ -81,8 +83,12 @@ public class Model {
         workersES = Executors.newFixedThreadPool(maxCountOfWorkers);
         controllerES = Executors.newSingleThreadExecutor();
         dealerES = Executors.newFixedThreadPool(maxCountOfDealers);
-        engineFuture.add(engineES.submit(new EngineSupplier(this)));
-        bodyworkFuture.add(bodyworkES.submit(new BodyworkSupplier(this)));
+        for (int i = 0; i < countOfEngineSuppliers; i++){
+            engineFuture.add(engineES.submit(new EngineSupplier(this)));
+        }
+        for (int i = 0; i < countOfBodyworkSuppliers; i++){
+            bodyworkFuture.add(bodyworkES.submit(new BodyworkSupplier(this)));
+        }
         for (int i = 0; i < countOfAccessorySuppliers; i++){
             accessoryFuture.add(accessoryES.submit(new AccessorySupplier(this)));
         }
@@ -201,6 +207,14 @@ public class Model {
 
     public void setCountOfAccessorySuppliers(int countOfAccessorySuppliers) {
         this.countOfAccessorySuppliers = countOfAccessorySuppliers;
+    }
+
+    public void setCountOfBodyworkSuppliers(int countOfBodyworkSuppliers) {
+        this.countOfBodyworkSuppliers = countOfBodyworkSuppliers;
+    }
+
+    public void setCountOfEngineSuppliers(int countOfEngineSuppliers) {
+        this.countOfEngineSuppliers = countOfEngineSuppliers;
     }
 
     public void close(){

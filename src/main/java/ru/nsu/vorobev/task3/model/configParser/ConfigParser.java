@@ -25,7 +25,7 @@ public class ConfigParser implements AutoCloseable{
         List<String> lines = new ArrayList<>();
         while((str = reader.readLine()) != null){
             if(lines.size() > countOfLines){
-                throw new BadConfigException("Too much params. Expected " + countOfLines);
+                throw new BadConfigException("Too much params. Expected maximum " + countOfLines);
             }
             if(str.length() != 0 && str.getBytes()[0] != '#') {
                 lines.add(str);

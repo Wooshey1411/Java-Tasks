@@ -57,9 +57,7 @@ public class FactoryView implements ModelListener {
                     workerAssembledLabel.setText("Assembled:" + ++workerAssembled);
                     carStorageLabel.setText(model.getCountOfCar() + "/" + model.getSizeOfCarStorage());
                 });
-                case CAR_SOLD -> Platform.runLater(() -> {
-                    dealerSoldLabel.setText("Sold:" + ++carSold);
-                });
+                case CAR_SOLD -> Platform.runLater(() -> dealerSoldLabel.setText("Sold:" + ++carSold));
             }
         }
     }
