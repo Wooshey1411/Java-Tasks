@@ -24,6 +24,13 @@ public class Worker implements Runnable{
                 Engine currEngine = model.getEngineStorage().get();
                 Accessory currAccessory = model.getAccessoryStorage().get();
                 Bodywork currBodywork = model.getBodyworkStorage().get();
+
+                synchronized (Worker.class){
+                    while(model.getTimeOfWorker() <= 0){
+                        Worker.class.wait();
+                    }
+                }
+
                 Thread.sleep(model.getTimeOfWorker());
                 Car car = new Car(ProductWithID.getNewID(), currEngine, currBodywork, currAccessory);
                 model.getCarStorage().put(car);

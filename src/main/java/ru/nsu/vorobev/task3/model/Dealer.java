@@ -17,6 +17,11 @@ public class Dealer implements Runnable{
     public void run() {
         while (!Thread.currentThread().isInterrupted()){
             try{
+                synchronized (Dealer.class){
+                    while(model.getTimeOfDealer() <= 0){
+                        Dealer.class.wait();
+                    }
+                }
                 Thread.sleep(model.getTimeOfDealer());
                 Car car = model.getCarStorage().get();
                 model.onModelChanged(ListenedHandle.CAR_SOLD);
@@ -29,6 +34,8 @@ public class Dealer implements Runnable{
                     Log.log("Time:" + time + " Dealer:" + dealerID + " Car:" + car.getID() + "(Engine:" + car.getEngine().getID()
                             + " Bodywork:" + car.getBodywork().getID() + " Accessory:" + car.getAccessory().getID() + ")");
                 }
+              //  System.out.println( "Dealer:" + dealerID + " Car:" + car.getID() + "(Engine:" + car.getEngine().getID()
+              //          + " Bodywork:" + car.getBodywork().getID() + " Accessory:" + car.getAccessory().getID() + ")");
             } catch (Exception ignored){
                 break;
             }

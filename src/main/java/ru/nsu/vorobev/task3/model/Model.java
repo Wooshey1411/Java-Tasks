@@ -1,5 +1,8 @@
 package ru.nsu.vorobev.task3.model;
 
+import ru.nsu.vorobev.task3.model.components.Accessory;
+import ru.nsu.vorobev.task3.model.components.Bodywork;
+import ru.nsu.vorobev.task3.model.components.Engine;
 import ru.nsu.vorobev.task3.model.storage.AccessoryStorage;
 import ru.nsu.vorobev.task3.model.storage.BodyworkStorage;
 import ru.nsu.vorobev.task3.model.storage.CarStorage;
@@ -101,11 +104,11 @@ public class Model {
         }
         isWorking = true;
     }
-    public int getTimeOfAccessorySupplier(){
+    public synchronized int getTimeOfAccessorySupplier(){
         return timeOfAccessorySupplier;
     }
 
-    public int getTimeOfBodyworkSupplier(){
+    public synchronized int getTimeOfBodyworkSupplier(){
         return timeOfBodyworkSupplier;
     }
 
@@ -114,14 +117,23 @@ public class Model {
     }
 
     public void setTimeOfAccessorySupplier(int timeOfAccessorySupplier) {
+        synchronized (Accessory.class){
+            Accessory.class.notify();
+        }
         this.timeOfAccessorySupplier = timeOfAccessorySupplier;
     }
 
     public void setTimeOfBodyworkSupplier(int timeOfBodyworkSupplier) {
+        synchronized (Bodywork.class){
+            Bodywork.class.notify();
+        }
         this.timeOfBodyworkSupplier = timeOfBodyworkSupplier;
     }
 
-    public void setTimeOfEngineSupplier(int timeOfEngineSupplier) {
+    public  void setTimeOfEngineSupplier(int timeOfEngineSupplier) {
+        synchronized (Engine.class){
+            Engine.class.notify();
+        }
         this.timeOfEngineSupplier = timeOfEngineSupplier;
     }
 
@@ -190,6 +202,9 @@ public class Model {
     }
 
     public void setTimeOfWorker(int timeOfWorker) {
+        synchronized (Worker.class){
+            Worker.class.notifyAll();
+        }
         this.timeOfWorker = timeOfWorker;
     }
 
@@ -198,6 +213,9 @@ public class Model {
     }
 
     public void setTimeOfDealer(int timeOfDealer) {
+        synchronized (Dealer.class){
+            Dealer.class.notifyAll();
+        }
         this.timeOfDealer = timeOfDealer;
     }
 

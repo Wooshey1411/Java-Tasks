@@ -19,6 +19,11 @@ public class Supplier<T extends ProductWithID> implements Runnable{
     public void run() {
         while (!Thread.currentThread().isInterrupted()){
             try {
+                synchronized (typeOfSupplied){
+                    while(getTime.getAsInt() <= 0){
+                        typeOfSupplied.wait();
+                    }
+                }
                 Thread.sleep(getTime.getAsInt());
                 storage.put(typeOfSupplied.getConstructor(Integer.TYPE).newInstance(ProductWithID.getNewID()));
             } catch (Exception ignored){

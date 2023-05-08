@@ -42,6 +42,7 @@ public class FactoryView implements ModelListener {
         synchronized (this) {
             switch (handle) {
                 case ENGINE_ASSEMBLED -> Platform.runLater(() -> {
+                    System.out.println(model.getCountOfEngine());
                     engineSuppliedLabel.setText("Supplied:" + ++enginesSupplied);
                     engineStorageLabel.setText(model.getCountOfEngine() + "/" + model.getSizeOfEngineStorage());
                     });
@@ -56,8 +57,13 @@ public class FactoryView implements ModelListener {
                 case CAR_ASSEMBLED -> Platform.runLater(() -> {
                     workerAssembledLabel.setText("Assembled:" + ++workerAssembled);
                     carStorageLabel.setText(model.getCountOfCar() + "/" + model.getSizeOfCarStorage());
+                    engineStorageLabel.setText(model.getCountOfEngine() + "/" + model.getSizeOfEngineStorage());
+                    bodyworkStorageLabel.setText(model.getCountOfBodywork() + "/" + model.getSizeOfBodyworkStorage());
+                    accessoryStorageLabel.setText(model.getCountOfAccessory() + "/" + model.getSizeOfAccessoryStorage());
                 });
-                case CAR_SOLD -> Platform.runLater(() -> dealerSoldLabel.setText("Sold:" + ++carSold));
+                case CAR_SOLD -> Platform.runLater(() -> { dealerSoldLabel.setText("Sold:" + ++carSold);
+                    carStorageLabel.setText(model.getCountOfCar() + "/" + model.getSizeOfCarStorage());
+                });
             }
         }
     }
