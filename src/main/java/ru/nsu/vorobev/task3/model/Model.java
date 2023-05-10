@@ -118,21 +118,21 @@ public class Model {
 
     public void setTimeOfAccessorySupplier(int timeOfAccessorySupplier) {
         synchronized (Accessory.class){
-            Accessory.class.notify();
+            Accessory.class.notifyAll();
         }
         this.timeOfAccessorySupplier = timeOfAccessorySupplier;
     }
 
     public void setTimeOfBodyworkSupplier(int timeOfBodyworkSupplier) {
         synchronized (Bodywork.class){
-            Bodywork.class.notify();
+            Bodywork.class.notifyAll();
         }
         this.timeOfBodyworkSupplier = timeOfBodyworkSupplier;
     }
 
     public  void setTimeOfEngineSupplier(int timeOfEngineSupplier) {
         synchronized (Engine.class){
-            Engine.class.notify();
+            Engine.class.notifyAll();
         }
         this.timeOfEngineSupplier = timeOfEngineSupplier;
     }

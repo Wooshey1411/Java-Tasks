@@ -1,13 +1,18 @@
 package ru.nsu.vorobev.task3.gui;
 
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.stage.WindowEvent;
+import javafx.stage.Stage;
 import ru.nsu.vorobev.task3.model.Model;
+
+import java.io.IOException;
+import java.util.Objects;
 
 public class FactoryController extends FactoryView {
     @FXML
@@ -100,5 +105,16 @@ public class FactoryController extends FactoryView {
     protected void OnExitBtnClick(){
         model.close();
         Platform.exit();
+    }
+
+    @FXML
+    protected void OnAboutBtnClick() throws IOException {
+        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(FactoryController.class.getResource("aboutView.fxml")));
+        Parent root = loader.load();
+        Stage stage = new Stage();
+        stage.setTitle("About");
+        stage.setResizable(false);
+        stage.setScene(new Scene(root,400,320));
+        stage.show();
     }
 }
