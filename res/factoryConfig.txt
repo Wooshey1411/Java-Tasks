@@ -9,4 +9,4 @@ countOfBodyworkSuppliers=20
 countOfDealers=20
 timeOfWorker=100
 timeOfDealer=200
-isSaleLogging=False
+isSaleLogging=True
